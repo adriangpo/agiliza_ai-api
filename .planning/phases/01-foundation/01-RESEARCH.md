@@ -22,7 +22,7 @@
 - **D-09:** `tenants` table uses UUID v7 as primary key. All other tables use `bigint` serial IDs. All tenant FK columns are `uuid` type.
 - **D-10:** `TenantMiddleware` calls `set_config('app.tenant_id', tenantId, true)` (local=true = transaction-scoped) inside `db.transaction()`.
 - **D-10a:** Authentication uses AdonisJS v7 `@adonisjs/auth` v10 opaque access tokens guard (DB-backed, instantly revocable). **JWT guard no longer exists in v7.** Tenant context is loaded from the authenticated user's DB record, not from a token payload claim.
-- **D-11:** RLS policy pattern: `USING (tenant_id = current_setting('app.tenant_id')::uuid)`.
+- **D-11:** RLS policy pattern: `USING (tenant_id = current_setting('app.tenant_id', true)::uuid)`.
 - **D-12:** GitHub Actions CI.
 - **D-13:** CI jobs: lint → test → build → security audit.
 - **D-14:** Any CI job failure blocks merges.
