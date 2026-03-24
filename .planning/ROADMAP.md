@@ -8,7 +8,7 @@ Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in ever
 
 ## Phases
 
-- [ ] **Phase 1: Foundation** - Project scaffold, PostgreSQL + PostGIS + RLS, two DB roles, BullMQ, test harness, and CI
+- [ ] **Phase 1: Foundation** - Project scaffold, PostgreSQL + PostGIS + RLS, two DB roles, @adonisjs/queue (backed by @boringnode/queue), test harness, and CI
 - [ ] **Phase 2: Authentication & Identity** - User registration, JWT + OAuth login, refresh tokens, token revocation, account deletion
 - [ ] **Phase 3: Reports & Geospatial** - Geolocated complaint submission, GPS validation, EXIF handling, status lifecycle, rate limiting
 - [ ] **Phase 4: Clustering** - Async cluster detection, idempotent parent incident creation, cascade resolution, reopen logic
@@ -21,7 +21,7 @@ Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in ever
 
 ### Phase 1: Foundation
 
-**Goal:** The project skeleton exists with enforced code quality, a running PostgreSQL + PostGIS database, two DB roles with `FORCE ROW LEVEL SECURITY` active (no superuser in app config), BullMQ/Redis ready for jobs, tenants using UUID v7, all other tables using bigint serials, and a Japa test harness that rolls back transactions per test and injects tenant context — so every subsequent phase can write features on a stable, secure base.
+**Goal:** The project skeleton exists with enforced code quality, a running PostgreSQL + PostGIS database, two DB roles with `FORCE ROW LEVEL SECURITY` active (no superuser in app config), `@adonisjs/queue` (backed by `@boringnode/queue`) ready for jobs, tenants using UUID v7, all other tables using bigint serials, and a Japa test harness that rolls back transactions per test and injects tenant context — so every subsequent phase can write features on a stable, secure base.
 **UI hint:** no
 **Requirements:** INFRA-01, INFRA-02, INFRA-03, INFRA-04, INFRA-05, INFRA-05b, INFRA-06, INFRA-07, INFRA-08, INFRA-09
 **SRS rules:** RLS contract (no specific RN; foundational constraint), RNF-04 (BullMQ idempotency infrastructure)

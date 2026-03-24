@@ -32,7 +32,7 @@ No feature code ships in this phase. The output is infrastructure only.
 - **D-09:** `tenants` table uses UUID v7 as primary key. All other tables use `bigint` serial IDs. All tenant FK columns are `uuid` type.
 - **D-10:** `TenantMiddleware` calls `set_config('app.tenant_id', tenantId, true)` (local=true = transaction-scoped) inside `db.transaction()`. Session-scoped `SET` is forbidden — would leak across pooled connections.
 - **D-10a:** Authentication uses AdonisJS v7 `@adonisjs/auth` v10 opaque access tokens guard (DB-backed, instantly revocable). The JWT guard no longer exists in v7. Tenant context is loaded from the authenticated user's DB record, not from a token payload claim.
-- **D-11:** RLS policy pattern: `USING (tenant_id = current_setting('app.tenant_id')::uuid)`. A dedicated `tests/rls/` suite verifies that tenant A cannot read tenant B's rows even with a direct DB connection.
+- **D-11:** RLS policy pattern: `USING (tenant_id = current_setting('app.tenant_id', true)::uuid)`. The second argument `true` returns NULL instead of raising an error when the setting is not set (safe outside transactions). A dedicated `tests/rls/` suite verifies that tenant A cannot read tenant B's rows even with a direct DB connection.
 
 ### CI/CD
 
@@ -52,11 +52,11 @@ No feature code ships in this phase. The output is infrastructure only.
   - `make up` — `docker compose up -d`
   - `make down` — `docker compose down`
   - `make test` — run full Japa suite (NODE_ENV=test)
-  - `make test:watch` — Japa watch mode
+  - `make test-watch` — Japa watch mode (hyphens required — Makefile targets cannot contain colons)
   - `make lint` — ESLint check
-  - `make lint:fix` — ESLint auto-fix
+  - `make lint-fix` — ESLint auto-fix
   - `make migrate` — `node ace migration:run`
-  - `make migrate:fresh` — `node ace migration:fresh --seed`
+  - `make migrate-fresh` — `node ace migration:fresh --seed` (hyphens required — Makefile targets cannot contain colons)
   - `make dev` — `node ace serve --watch` (added at Claude's discretion)
   - `make build` — `node ace build` (added at Claude's discretion)
   - `make typecheck` — `tsc --noEmit` (added at Claude's discretion)
