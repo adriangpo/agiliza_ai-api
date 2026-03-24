@@ -1,9 +1,9 @@
 # Domain Pitfalls
 
 **Project:** Agiliza Aí API
-**Domain:** Multi-tenant civic reporting API (AdonisJS v6 + PostgreSQL RLS + PostGIS)
-**Researched:** 2026-03-23
-**Confidence:** MEDIUM–HIGH (training data; web verification unavailable during research session)
+**Domain:** Multi-tenant civic reporting API (AdonisJS v7 + PostgreSQL RLS + PostGIS)
+**Researched:** 2026-03-23 (original); **partially superseded 2026-03-24** — framework is v7, not v6. RLS and PostgreSQL pitfalls below still apply. Any v6-specific pitfalls (like "custom BullMQ provider") are obsolete.
+**Confidence:** MEDIUM–HIGH for RLS/DB patterns; verify AdonisJS-specific pitfalls against v7 docs
 
 ---
 

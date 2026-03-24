@@ -6,7 +6,7 @@
 <domain>
 ## Phase Boundary
 
-Phase 1 delivers the project skeleton that every subsequent phase builds on: AdonisJS v6 scaffold with feature-based folder structure, PostgreSQL + PostGIS with two DB roles and FORCE ROW LEVEL SECURITY, BullMQ + Redis ready for async jobs, ESLint v9 + Prettier + Lefthook enforcing zero-warnings zero-errors, Japa test harness with per-test transaction rollback and injectable tenant context, Docker Compose + Makefile for local dev, and a GitHub Actions CI pipeline.
+Phase 1 delivers the project skeleton that every subsequent phase builds on: AdonisJS v7 scaffold (Node.js 24) with feature-based folder structure, PostgreSQL + PostGIS with two DB roles and FORCE ROW LEVEL SECURITY, `@adonisjs/queue` (Redis-backed via `@boringnode/queue`) ready for async jobs, ESLint v10 + Prettier + Lefthook enforcing zero-warnings zero-errors, Japa test harness with per-test transaction rollback and injectable tenant context, Docker Compose + Makefile for local dev, and a GitHub Actions CI pipeline.
 
 No feature code ships in this phase. The output is infrastructure only.
 
@@ -23,6 +23,7 @@ No feature code ships in this phase. The output is infrastructure only.
 - **D-04:** Cross-cutting tests (RLS contract tests, multi-feature integration tests) live in top-level `tests/` folder — `tests/rls/`, `tests/integration/`.
 - **D-05:** Database migrations live in `database/migrations/` (AdonisJS default, central location). Filenames are prefixed by feature: `001_foundation_tenants.ts`, `002_auth_users.ts`, etc.
 - **D-06:** Per-feature API documentation lives in `docs/features/{name}/API.md` and `docs/features/{name}/MODELS.md`. A shared template at `docs/templates/` defines the required structure. Docs are updated in the same commit as their code changes.
+- **D-30:** All feature documentation files (`API.md`, `MODELS.md`) and any other relevant technical docs (architecture, data flow) MUST include Mermaid diagrams where they add clarity: data models as ER diagrams, request flows as sequence diagrams, state machines as state diagrams. Diagrams live inline in the markdown using fenced ` ```mermaid ``` ` blocks. The `docs/templates/` template must include example Mermaid diagram skeletons for each doc type.
 
 ### Database & RLS Setup
 
@@ -30,6 +31,7 @@ No feature code ships in this phase. The output is infrastructure only.
 - **D-08:** `FORCE ROW LEVEL SECURITY` applied to all tenant-scoped tables — enforces RLS even on the `migrator` role.
 - **D-09:** `tenants` table uses UUID v7 as primary key. All other tables use `bigint` serial IDs. All tenant FK columns are `uuid` type.
 - **D-10:** `TenantMiddleware` calls `set_config('app.tenant_id', tenantId, true)` (local=true = transaction-scoped) inside `db.transaction()`. Session-scoped `SET` is forbidden — would leak across pooled connections.
+- **D-10a:** Authentication uses AdonisJS v7 `@adonisjs/auth` v10 opaque access tokens guard (DB-backed, instantly revocable). The JWT guard no longer exists in v7. Tenant context is loaded from the authenticated user's DB record, not from a token payload claim.
 - **D-11:** RLS policy pattern: `USING (tenant_id = current_setting('app.tenant_id')::uuid)`. A dedicated `tests/rls/` suite verifies that tenant A cannot read tenant B's rows even with a direct DB connection.
 
 ### CI/CD
@@ -82,7 +84,7 @@ No feature code ships in this phase. The output is infrastructure only.
 - Specific ESLint rule set (TypeScript strict, import order, unicorn subset, etc.) — choose a well-regarded strict preset
 - Prettier configuration details (print width, semicolons, single quotes, trailing commas)
 - `japa.config.ts` exact setup (plugins, reporters, file globs)
-- BullMQ provider implementation (use `@adonisjs/queue` if it is stable and v6-ready; otherwise a custom BullMQ provider with a thin Adonis service wrapper)
+- Queue provider: use `@adonisjs/queue` v0.6.0 (confirmed stable for AdonisJS v7, backed by `@boringnode/queue`). No custom BullMQ provider needed.
 - `.env.example` contents and validation (use `@adonisjs/env` with strict schema)
 - GitHub Actions workflow file details (Node version, caching strategy, postgres service container config)
 - PostGIS extension migration (create extension in a dedicated `000_extensions.ts` migration)
@@ -120,7 +122,7 @@ No feature code ships in this phase. The output is infrastructure only.
 - None yet — this phase establishes the patterns all future phases follow.
 
 ### Integration Points
-- This phase creates the foundation all other features integrate with: DB connection, tenant middleware, auth scaffold, test helpers, BullMQ provider.
+- This phase creates the foundation all other features integrate with: DB connection, tenant middleware, auth scaffold, test helpers, @adonisjs/queue provider.
 
 </code_context>
 
@@ -130,7 +132,7 @@ No feature code ships in this phase. The output is infrastructure only.
 - Makefile is a first-class citizen: all agents must use `make` targets. Never run raw commands if a make target exists for it. If a target is broken, fix the Makefile.
 - ESLint warnings are errors: `--max-warnings 0` always. No exceptions without a file-scoped or line-scoped comment with the rule name.
 - Feature naming convention for migrations: `{NNN}_{feature}_{description}.ts` (e.g., `001_foundation_tenants.ts`)
-- BullMQ: verify `@adonisjs/queue` npm status before planning. If unstable, implement a custom BullMQ provider with typed job interfaces.
+- Queue: use `@adonisjs/queue` v0.6.0 with Redis adapter. Confirmed stable for v7. Use Sync adapter in test environment to avoid Redis dependency in unit tests.
 
 </specifics>
 

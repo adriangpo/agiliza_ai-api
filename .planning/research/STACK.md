@@ -1,8 +1,17 @@
 # Stack Research: Agiliza Aí API
 
 **Project:** Multi-tenant municipal citizen-reporting REST API
-**Researched:** 2026-03-23
-**Confidence note:** External web tools (WebSearch, WebFetch, Bash/npm) were unavailable during this research session. All package versions are drawn from training data (cutoff August 2025). AdonisJS v6 was stable and well-documented by that date. **Verify all semver pins against npm before committing a package.json.**
+**Researched:** 2026-03-23 (original) — **SUPERSEDED 2026-03-24**
+**⚠ OUTDATED:** This document was written for AdonisJS v6. The project has switched to **AdonisJS v7** (Node.js 24 required). All package versions below are outdated. See `.planning/phases/01-foundation/01-RESEARCH.md` for the current v7-verified stack and `CLAUDE.md` for the canonical version table (all versions npm-verified 2026-03-24).
+
+**Key v7 changes vs what's written below:**
+- `@adonisjs/core` → 7.1.1 (not 6.x)
+- `@adonisjs/auth` → 10.0.0, opaque tokens only (JWT guard removed)
+- `@adonisjs/queue` → 0.6.0 using `@boringnode/queue` (not BullMQ)
+- `@adonisjs/drive` → 4.0.0 (v2 is v5-era, v3 is v6-era)
+- `eslint` → 10.1.0 (not v9)
+- `simple-git-hooks` → replaced by `lefthook` (D-19)
+- Node.js 24 required (machine currently runs 22.22.0 — install nodejs24 via dnf)
 
 ---
 

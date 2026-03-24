@@ -2,14 +2,14 @@
 
 **Project:** Agiliza Aí API
 **Domain:** Multi-tenant municipal citizen-reporting REST API (311-style, SaaS, Brazil)
-**Researched:** 2026-03-23
-**Confidence:** MEDIUM (stack versions from training data; patterns and architecture HIGH)
+**Researched:** 2026-03-23 (original) — **SUPERSEDED 2026-03-24**
+**⚠ OUTDATED:** Framework switched to AdonisJS v7. See `CLAUDE.md` for the canonical v7 stack and `01-RESEARCH.md` for phase-level research.
 
 ---
 
 ## Recommended Stack (key decisions only)
 
-AdonisJS v6 is the mandated framework — an ESM-first, TypeScript-native ground-up rewrite from v5. Scaffold with `--kit=api` (no views, no sessions). All first-party packages are wired via `node ace configure`, not manual registration. **Do not mix v5 packages** — they use the old `@ioc:` container and fail silently at runtime.
+AdonisJS v7 (Node.js 24 required) is the target framework. Scaffold with `npm create adonisjs@latest <name> -- --kit=api`. All first-party packages are wired via `node ace add <pkg>` (replaces `node ace configure`). **Do not use v5 or v6 packages** — they are incompatible with the v7 container and ESM conventions.
 
 | Technology | Role | Why |
 |---|---|---|

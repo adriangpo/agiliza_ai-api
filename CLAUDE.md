@@ -9,7 +9,7 @@ A multi-tenant REST API built with Adonis.js for "Agiliza Aí" — a municipal c
 
 ### Constraints
 
-- **Tech stack:** Adonis.js v6 — framework conventions must be followed, not worked around
+- **Tech stack:** Adonis.js v7 (Node.js 24 required) — framework conventions must be followed, not worked around
 - **Testing:** TDD is non-negotiable — no feature ships without tests written first
 - **Security:** RLS tenant isolation must be tested; any cross-tenant data leak is a critical failure
 - **Coupling:** No file should do too much — services, controllers, validators, and policies are always separate files
@@ -21,96 +21,94 @@ A multi-tenant REST API built with Adonis.js for "Agiliza Aí" — a municipal c
 ## Technology Stack
 
 ## Core Framework
-### AdonisJS v6
+### AdonisJS v7 (Node.js 24 required)
 - `@adonisjs/core` — HTTP server, router, middleware pipeline, DI container
 - `@adonisjs/lucid` — Lucid ORM (prompt during scaffold)
-- `@vinejs/vine` — validation (replaces `@adonisjs/validator` from v5)
-- `@adonisjs/auth` — authentication (prompt during scaffold)
+- `@vinejs/vine` — validation (bundled; do not install `@adonisjs/validator`)
+- `@adonisjs/auth` — authentication with opaque access tokens (prompt during scaffold)
 - `japa` + `@japa/api-client` — test runner (included automatically)
 ## Database & ORM
 ### Lucid ORM (PostgreSQL driver)
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@adonisjs/lucid` | `^21.x` | ORM, migrations, seeders, query builder |
-| `pg` | `^8.x` | PostgreSQL driver required by Lucid |
+| `@adonisjs/lucid` | `^22.2.0` | ORM, migrations, seeders, query builder |
+| `pg` | `^8.20.0` | PostgreSQL driver required by Lucid |
 # Select: PostgreSQL
 ### PostGIS
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
 | `postgis` (DB extension) | `3.x` | Geospatial queries — enable at DB level |
-| `knex-postgis` | `^0.14.x` | Knex/Lucid raw PostGIS helpers |
+| `knex-postgis` | `^0.14.3` | Knex/Lucid raw PostGIS helpers |
 ## Authentication
-### @adonisjs/auth with JWT guard
-| Package | Version (training) | Role |
+### @adonisjs/auth with opaque access tokens
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@adonisjs/auth` | `^9.x` | Auth scaffolding, guards, user provider |
-| `@adonisjs/jwt` | Separate pkg — see note | JWT guard for `@adonisjs/auth` |
-# Select: JWT guard + Lucid user provider
+| `@adonisjs/auth` | `^10.0.0` | Auth scaffolding, access token guard, Lucid user provider |
+**Note:** AdonisJS v7 auth uses opaque DB-backed access tokens (not JWT). The JWT guard was removed in auth v10. Tenant context is loaded from the user DB record on each authenticated request — not from a token payload claim. This is more secure (tokens are instantly revocable server-side).
+# Select: Access tokens guard + Lucid user provider
 ### OAuth / Social Login
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@adonisjs/ally` | `^5.x` | OAuth2 social login (Google, Apple) |
+| `@adonisjs/ally` | `^6.0.0` | OAuth2 social login (Google, Apple) |
 ## Testing
 ### Japa (native AdonisJS test runner)
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@japa/runner` | `^3.x` | Core test runner |
-| `@japa/api-client` | `^2.x` | HTTP assertion client for endpoint tests |
-| `@japa/assert` | `^3.x` | Assertion library (Chai-compatible) |
-| `@japa/plugin-adonisjs` | `^3.x` | AdonisJS app lifecycle integration |
+| `@japa/runner` | `^5.3.0` | Core test runner |
+| `@japa/api-client` | `^3.2.1` | HTTP assertion client for endpoint tests |
+| `@japa/assert` | `^4.2.0` | Assertion library (Chai-compatible) |
+| `@japa/plugin-adonisjs` | `^5.2.0` | AdonisJS app lifecycle integration |
 - Write the test first, watch it fail, implement until it passes
 - Every controller, service, validator, and policy has a test file
 - Cross-tenant leakage tests: verify that a request with `tenantId=A` cannot read `tenantId=B` data under any condition
 ## Linting & Formatting
-### ESLint v9 (flat config)
-| Package | Version (training) | Role |
+### ESLint v10 (flat config)
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `eslint` | `^9.x` | Linting engine |
-| `@adonisjs/eslint-config` | `^2.x` | Official AdonisJS ESLint preset |
-| `eslint-plugin-unicorn` | `^55.x` | Extra code-quality rules |
-| `@typescript-eslint/eslint-plugin` | `^8.x` | TypeScript-specific rules |
-| `@typescript-eslint/parser` | `^8.x` | TS parser for ESLint |
+| `eslint` | `^10.1.0` | Linting engine |
+| `@adonisjs/eslint-config` | `^3.0.0` | Official AdonisJS ESLint preset |
+| `eslint-plugin-unicorn` | latest | Extra code-quality rules |
+| `@typescript-eslint/eslint-plugin` | latest compatible | TypeScript-specific rules |
+| `@typescript-eslint/parser` | latest compatible | TS parser for ESLint |
 - `@typescript-eslint` rules
 - Import ordering rules
-- AdonisJS-specific patterns (no `@ioc:` strings, etc.)
+- AdonisJS-specific patterns
 ### Prettier
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `prettier` | `^3.x` | Code formatting |
-| `@adonisjs/prettier-config` | `^1.x` | Official AdonisJS Prettier preset |
-| Package | Version (training) | Role |
+| `prettier` | `^3.8.1` | Code formatting |
+| `@adonisjs/prettier-config` | `^1.4.5` | Official AdonisJS Prettier preset |
+### Git Hooks
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `simple-git-hooks` | `^2.x` | Lightweight git hook runner |
-| `lint-staged` | `^15.x` | Run linting only on staged files |
+| `lefthook` | `^2.1.4` | Fast binary git hook runner (no Node.js runtime dependency) |
 ## Storage & Media
 ### @adonisjs/drive
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@adonisjs/drive` | `^2.x` | Filesystem/S3/GCS abstraction |
-| `@adonisjs/drive-s3` | See note | S3 driver (verify if built-in or separate) |
-| Package | Version (training) | Role |
+| `@adonisjs/drive` | `^4.0.0` | Filesystem/S3/GCS abstraction (v7 compatible) |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `sharp` | `^0.33.x` | Image processing: EXIF strip, resize |
+| `sharp` | `^0.34.5` | Image processing: EXIF strip, resize |
 ## Background Jobs / Queues
-### @adonisjs/queue (BullMQ-based)
-| Package | Version (training) | Role |
+### @adonisjs/queue (backed by @boringnode/queue)
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@adonisjs/queue` | — see note | BullMQ integration for AdonisJS v6 |
-| `bullmq` | `^5.x` | Queue engine (Redis-backed) |
-| `ioredis` | `^5.x` | Redis client required by BullMQ |
+| `@adonisjs/queue` | `^0.6.0` | Queue integration for AdonisJS v7 — uses `@boringnode/queue` internally, NOT BullMQ |
+| `@adonisjs/redis` | `^10.0.0` | Redis client for AdonisJS v7 (required by queue Redis adapter) |
+
+**Note:** `@adonisjs/queue` v0.6.0 depends on `@boringnode/queue ^0.5.0`, which provides Redis, Database, and Sync adapters. Do NOT install `bullmq` or `ioredis` directly — `@adonisjs/queue` + `@adonisjs/redis` covers all job processing needs. The Sync adapter is ideal for test environments.
 - ML image screening HTTP calls (async, non-blocking path for submissions)
 - Cluster detection after each submission (idempotent job, RNF-04)
 - Push notification dispatch (RN-019)
 - Progressive restriction evaluation for malicious flagging (RN-020)
 - Redis-backed = durable across restarts
-- Built-in retry, backoff, dead-letter queue
-- Job deduplication (critical for idempotent cluster detection — RNF-04)
-- `@adonisjs/queue` if stable; otherwise direct BullMQ is fine
+- Built-in retry, backoff — idempotency strategy for cluster detection to be evaluated in Phase 4
 ## Rate Limiting
 ### @adonisjs/limiter
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `@adonisjs/limiter` | `^2.x` | Rate limiting middleware |
+| `@adonisjs/limiter` | `^3.0.1` | Rate limiting middleware |
 | Rule | Limit | Window | Key |
 |------|-------|--------|-----|
 | Publications (RN-002) | 5 | 24h rolling | `user:{userId}:publications` |
@@ -119,63 +117,70 @@ A multi-tenant REST API built with Adonis.js for "Agiliza Aí" — a municipal c
 | General API | Configurable | — | `ip:{ip}` |
 ## Geospatial
 ### PostGIS (database extension)
-| Package | Version (training) | Role |
+| Package | Version (npm-verified 2026-03-24) | Role |
 |---|---|---|
-| `geolib` | `^3.x` | Haversine distance calc in JS |
+| `geolib` | `^3.3.4` | Haversine distance calc in JS |
 ## What NOT to Use (and why)
 | Package / Pattern | Why Not |
 |---|---|
-| Any `@adonisjs/*` v5 package | v5 uses `@ioc:` container; incompatible with v6. Will appear to install but fail at runtime. |
-| `@adonisjs/validator` | v5 package. v6 uses `@vinejs/vine` — already bundled. Do not install the old validator. |
-| `jsonwebtoken` (manual) | `@adonisjs/auth` v9 JWT guard handles token signing/verification. Adding `jsonwebtoken` directly creates dual JWT implementations. |
+| Any `@adonisjs/*` v5 or v6 package | v5/v6 packages use the old IoC container and peer-dep on `@adonisjs/core ^5.x` or `^6.x`. Incompatible with v7. Will appear to install but fail at runtime. |
+| `@adonisjs/validator` | Legacy v5 package. v7 uses `@vinejs/vine` — already bundled. |
+| `jsonwebtoken` / `jose` for JWT auth | AdonisJS v7 auth uses opaque access tokens (auth v10). JWT guard was removed. Do not add a parallel JWT implementation — use auth v10's access tokens guard. |
 | `passport` | Node.js middleware pattern; fights AdonisJS HTTP context and DI container. Use `@adonisjs/auth` + `@adonisjs/ally`. |
 | `jest` / `vitest` | Require custom setup fighting AdonisJS app lifecycle. Use Japa — it is the official runner and handles DB lifecycle correctly. |
 | `prisma` / `drizzle` | Bypass Lucid conventions (migrations, factories, model events). Lucid is the correct ORM for AdonisJS. |
-| `sequelize` | v5 era, CommonJS-first. Not compatible with AdonisJS v6 ESM conventions. |
-| `husky` | AdonisJS scaffold uses `simple-git-hooks`. Husky requires an install script that breaks in some CI environments. |
-| `.eslintrc.json` | ESLint v8 legacy format. Use `eslint.config.js` flat config (ESLint v9). |
+| `sequelize` | CommonJS-first. Not compatible with AdonisJS v7 ESM conventions. |
+| `husky` / `simple-git-hooks` | Project uses `lefthook` (D-19 decision). Lefthook is a fast binary with no Node.js runtime dependency, making hooks faster and more reliable in CI. |
+| `.eslintrc.json` | ESLint v8 legacy format. Use `eslint.config.js` flat config (ESLint v10). |
 | `eslint-config-airbnb` | Tuned for React/CommonJS. Conflicts with `@adonisjs/eslint-config` on import rules. |
 | In-memory rate limiting | Fails in multi-process deployments. Use Redis-backed `@adonisjs/limiter`. |
-| In-process job queues | Not durable. Use BullMQ + Redis for cluster detection and async ML calls. |
-| Session-based auth | PROJECT.md explicitly mandates JWT. Sessions add complexity for mobile clients and are stateful. |
+| In-process job queues | Not durable. Use `@adonisjs/queue` (Redis adapter) for durable async jobs. |
+| Session-based auth | Mobile clients require stateless tokens. Use opaque access tokens via `@adonisjs/auth` v10. |
+| `ioredis` directly | Use `@adonisjs/redis` v10 which wraps ioredis with AdonisJS DI and lifecycle management. |
 ## Version Summary Table
 | Package | Pinned Version | Category | Confidence |
 |---|---|---|---|
-| `@adonisjs/core` | `^6.12.0` | Framework | MEDIUM |
-| `@adonisjs/lucid` | `^21.0.0` | ORM | MEDIUM |
-| `pg` | `^8.11.0` | DB driver | HIGH |
-| `@adonisjs/auth` | `^9.0.0` | Auth | MEDIUM |
-| `@adonisjs/ally` | `^5.0.0` | OAuth | MEDIUM |
-| `@vinejs/vine` | `^2.0.0` | Validation | MEDIUM |
-| `@adonisjs/drive` | `^2.0.0` | Storage | MEDIUM |
-| `@adonisjs/limiter` | `^2.0.0` | Rate limiting | MEDIUM |
-| `@japa/runner` | `^3.0.0` | Test runner | MEDIUM |
-| `@japa/api-client` | `^2.0.0` | HTTP test client | MEDIUM |
-| `@japa/assert` | `^3.0.0` | Assertions | MEDIUM |
-| `@japa/plugin-adonisjs` | `^3.0.0` | AdonisJS test integration | MEDIUM |
-| `eslint` | `^9.0.0` | Linting | HIGH |
-| `@adonisjs/eslint-config` | `^2.0.0` | ESLint preset | MEDIUM |
-| `prettier` | `^3.0.0` | Formatting | HIGH |
-| `@adonisjs/prettier-config` | `^1.0.0` | Prettier preset | MEDIUM |
-| `simple-git-hooks` | `^2.0.0` | Git hooks | HIGH |
-| `lint-staged` | `^15.0.0` | Staged-file linting | HIGH |
-| `sharp` | `^0.33.0` | Image/EXIF processing | HIGH |
-| `bullmq` | `^5.0.0` | Job queues | HIGH |
-| `ioredis` | `^5.0.0` | Redis client | HIGH |
-| `geolib` | `^3.3.0` | GPS distance validation | HIGH |
-| `knex-postgis` | `^0.14.0` | PostGIS helpers (optional) | LOW |
+| `@adonisjs/core` | `^7.1.1` | Framework | HIGH |
+| `@adonisjs/lucid` | `^22.2.0` | ORM | HIGH |
+| `pg` | `^8.20.0` | DB driver | HIGH |
+| `@adonisjs/auth` | `^10.0.0` | Auth | HIGH |
+| `@adonisjs/ally` | `^6.0.0` | OAuth | HIGH |
+| `@vinejs/vine` | `^4.3.0` | Validation | HIGH |
+| `@adonisjs/drive` | `^4.0.0` | Storage | HIGH |
+| `@adonisjs/limiter` | `^3.0.1` | Rate limiting | HIGH |
+| `@adonisjs/queue` | `^0.6.0` | Job queues | HIGH |
+| `@adonisjs/redis` | `^10.0.0` | Redis client | HIGH |
+| `@japa/runner` | `^5.3.0` | Test runner | HIGH |
+
+| `@japa/api-client` | `^3.2.1` | HTTP test client | HIGH |
+| `@japa/assert` | `^4.2.0` | Assertions | HIGH |
+| `@japa/plugin-adonisjs` | `^5.2.0` | AdonisJS test integration | HIGH |
+| `eslint` | `^10.1.0` | Linting | HIGH |
+| `@adonisjs/eslint-config` | `^3.0.0` | ESLint preset | HIGH |
+| `prettier` | `^3.8.1` | Formatting | HIGH |
+| `@adonisjs/prettier-config` | `^1.4.5` | Prettier preset | HIGH |
+| `lefthook` | `^2.1.4` | Git hooks | HIGH |
+| `sharp` | `^0.34.5` | Image/EXIF processing | HIGH |
+| `@boringnode/queue` | (via @adonisjs/queue) | Queue engine | HIGH |
+| `geolib` | `^3.3.4` | GPS distance validation | HIGH |
+| `knex-postgis` | `^0.14.3` | PostGIS helpers (optional) | LOW |
 ## Installation Reference
 ### Scaffold
+```bash
+npm init adonisjs@latest agiliza-ai-api -- --kit=api
+# Requires Node.js 24+
+```
 ### Configure first-party packages
 ### Add supporting packages
 ### Enable PostGIS
 ## Sources
-- AdonisJS v6 documentation: https://docs.adonisjs.com (training data, August 2025)
-- AdonisJS GitHub: https://github.com/adonisjs (training data)
-- `bullmq` documentation: https://docs.bullmq.io (training data)
-- `sharp` documentation: https://sharp.pixelplumbing.com (training data)
-- ESLint v9 flat config announcement: https://eslint.org/blog/2022/08/new-config-system-part-1/ (training data)
-- **Verify all versions on npm registry before use** — https://www.npmjs.com
+- AdonisJS v7 documentation: https://docs.adonisjs.com
+- AdonisJS v7 release blog: https://adonisjs.com/blog/v7
+- AdonisJS v6→v7 upgrade guide: https://docs.adonisjs.com/v6-to-v7
+- AdonisJS GitHub: https://github.com/adonisjs
+- `bullmq` documentation: https://docs.bullmq.io
+- `sharp` documentation: https://sharp.pixelplumbing.com
+- **All versions npm-verified on 2026-03-24** — https://www.npmjs.com
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->

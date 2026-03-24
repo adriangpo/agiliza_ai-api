@@ -12,23 +12,23 @@
 
 ### Foundation & Infrastructure
 
-- [ ] **INFRA-01**: Project scaffolded with AdonisJS v6 API kit, TypeScript, and feature-based folder structure
-- [ ] **INFRA-02**: ESLint v9 flat config + Prettier enforced; pre-commit hooks block non-conforming commits
+- [ ] **INFRA-01**: Project scaffolded with AdonisJS v7 API kit (Node.js 24), TypeScript, and feature-based folder structure
+- [ ] **INFRA-02**: ESLint v10 flat config + Prettier enforced; Lefthook pre-commit hooks block non-conforming commits
 - [ ] **INFRA-03**: PostgreSQL database configured with PostGIS extension enabled
 - [ ] **INFRA-04**: Two DB roles established: `migrator` (DDL + RLS policy owner) and `app` (DML only, RLS-restricted); no superuser credentials ever present in application config
 - [ ] **INFRA-05**: `FORCE ROW LEVEL SECURITY` applied to all tenant-scoped tables — enforces RLS even on the table owner (`migrator`), preventing human error from direct DB connections
 - [ ] **INFRA-05b**: Tenants table uses UUID v7 as primary key; all other tables use `bigint` serial/incremental IDs; tenant FK columns on all tables are `uuid` type
 - [ ] **INFRA-06**: `TenantMiddleware` sets `set_config('app.tenant_id', ..., true)` inside a transaction before every query — verified with exhaustive cross-tenant leakage tests
 - [ ] **INFRA-07**: Japa test runner configured with database transaction rollback per test; global tenant context injectable in tests
-- [ ] **INFRA-08**: BullMQ + Redis configured for async background jobs (clustering, notifications, ML screening)
+- [ ] **INFRA-08**: `@adonisjs/queue` + Redis configured for async background jobs (clustering, notifications, ML screening); Sync adapter used in test environment
 - [ ] **INFRA-09**: CI pipeline runs lint, type-check, and full test suite on every push
 
 ### Authentication & Identity
 
 - [ ] **AUTH-01**: User can register with unique email and password per tenant (RN-001)
 - [ ] **AUTH-02**: User can authenticate via OAuth social login — Google; Apple if driver available (RN-001)
-- [ ] **AUTH-03**: User receives JWT access token and refresh token on login; `tenantId` claim in payload
-- [ ] **AUTH-04**: JWT access tokens expire; user can refresh with refresh token
+- [ ] **AUTH-03**: User receives an opaque access token on login (AdonisJS v7 auth v10 access tokens guard, DB-backed); tenant context is loaded from the user record per request — no JWT, no token payload claims
+- [ ] **AUTH-04**: Access tokens expire; user can obtain a fresh token by re-authenticating (or via refresh token if supported by auth v10 guard)
 - [ ] **AUTH-05**: Refresh tokens are invalidated on logout; token blocklist stored in Redis
 - [ ] **AUTH-06**: User's public profile exposes only display name and join date (RN-001)
 - [ ] **AUTH-07**: User can delete their account; all personal data removed, publications anonymized to "Cidadão Anônimo" (RN-005)
