@@ -15,8 +15,9 @@
 - [ ] **INFRA-01**: Project scaffolded with AdonisJS v6 API kit, TypeScript, and feature-based folder structure
 - [ ] **INFRA-02**: ESLint v9 flat config + Prettier enforced; pre-commit hooks block non-conforming commits
 - [ ] **INFRA-03**: PostgreSQL database configured with PostGIS extension enabled
-- [ ] **INFRA-04**: Two DB roles established: `migrator` (DDL + RLS policy owner) and `app` (DML only, RLS-restricted)
-- [ ] **INFRA-05**: Row-Level Security policies enabled on all tenant-scoped tables; `app` role cannot bypass RLS
+- [ ] **INFRA-04**: Two DB roles established: `migrator` (DDL + RLS policy owner) and `app` (DML only, RLS-restricted); no superuser credentials ever present in application config
+- [ ] **INFRA-05**: `FORCE ROW LEVEL SECURITY` applied to all tenant-scoped tables — enforces RLS even on the table owner (`migrator`), preventing human error from direct DB connections
+- [ ] **INFRA-05b**: Tenants table uses UUID v7 as primary key; all other tables use `bigint` serial/incremental IDs; tenant FK columns on all tables are `uuid` type
 - [ ] **INFRA-06**: `TenantMiddleware` sets `set_config('app.tenant_id', ..., true)` inside a transaction before every query — verified with exhaustive cross-tenant leakage tests
 - [ ] **INFRA-07**: Japa test runner configured with database transaction rollback per test; global tenant context injectable in tests
 - [ ] **INFRA-08**: BullMQ + Redis configured for async background jobs (clustering, notifications, ML screening)
@@ -147,24 +148,87 @@
 
 ## Traceability
 
-*Populated during roadmap creation.*
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 through INFRA-09 | Phase 1 | Pending |
-| AUTH-01 through AUTH-08 | Phase 2 | Pending |
-| REP-01 through REP-10, GEO-01, GEO-02 | Phase 3 | Pending |
-| CLUS-01 through CLUS-07 | Phase 4 | Pending |
-| MOD-01 through MOD-09 | Phase 5 | Pending |
-| FEED-01 through FEED-03 | Phase 6 | Pending |
-| NOTF-01 through NOTF-05 | Phase 7 | Pending |
-| MGT-01 through MGT-06, SEC-01 through SEC-04, DOC-01 through DOC-03 | Phase 8 | Pending |
+| INFRA-01 | Phase 1: Foundation | Pending |
+| INFRA-02 | Phase 1: Foundation | Pending |
+| INFRA-03 | Phase 1: Foundation | Pending |
+| INFRA-04 | Phase 1: Foundation | Pending |
+| INFRA-05 | Phase 1: Foundation | Pending |
+| INFRA-05b | Phase 1: Foundation | Pending |
+| INFRA-06 | Phase 1: Foundation | Pending |
+| INFRA-07 | Phase 1: Foundation | Pending |
+| INFRA-08 | Phase 1: Foundation | Pending |
+| INFRA-09 | Phase 1: Foundation | Pending |
+| AUTH-01 | Phase 2: Authentication & Identity | Pending |
+| AUTH-02 | Phase 2: Authentication & Identity | Pending |
+| AUTH-03 | Phase 2: Authentication & Identity | Pending |
+| AUTH-04 | Phase 2: Authentication & Identity | Pending |
+| AUTH-05 | Phase 2: Authentication & Identity | Pending |
+| AUTH-06 | Phase 2: Authentication & Identity | Pending |
+| AUTH-07 | Phase 2: Authentication & Identity | Pending |
+| AUTH-08 | Phase 2: Authentication & Identity | Pending |
+| REP-01 | Phase 3: Reports & Geospatial | Pending |
+| REP-02 | Phase 3: Reports & Geospatial | Pending |
+| REP-03 | Phase 3: Reports & Geospatial | Pending |
+| REP-04 | Phase 3: Reports & Geospatial | Pending |
+| REP-05 | Phase 3: Reports & Geospatial | Pending |
+| REP-06 | Phase 3: Reports & Geospatial | Pending |
+| REP-07 | Phase 3: Reports & Geospatial | Pending |
+| REP-08 | Phase 3: Reports & Geospatial | Pending |
+| REP-09 | Phase 3: Reports & Geospatial | Pending |
+| REP-10 | Phase 3: Reports & Geospatial | Pending |
+| GEO-01 | Phase 3: Reports & Geospatial | Pending |
+| GEO-02 | Phase 3: Reports & Geospatial | Pending |
+| SEC-01 | Phase 3: Reports & Geospatial | Pending |
+| SEC-02 | Phase 3: Reports & Geospatial | Pending |
+| CLUS-01 | Phase 4: Clustering | Pending |
+| CLUS-02 | Phase 4: Clustering | Pending |
+| CLUS-03 | Phase 4: Clustering | Pending |
+| CLUS-04 | Phase 4: Clustering | Pending |
+| CLUS-05 | Phase 4: Clustering | Pending |
+| CLUS-06 | Phase 4: Clustering | Pending |
+| CLUS-07 | Phase 4: Clustering | Pending |
+| MOD-01 | Phase 5: Moderation | Pending |
+| MOD-02 | Phase 5: Moderation | Pending |
+| MOD-03 | Phase 5: Moderation | Pending |
+| MOD-04 | Phase 5: Moderation | Pending |
+| MOD-05 | Phase 5: Moderation | Pending |
+| MOD-06 | Phase 5: Moderation | Pending |
+| MOD-07 | Phase 5: Moderation | Pending |
+| MOD-08 | Phase 5: Moderation | Pending |
+| MOD-09 | Phase 5: Moderation | Pending |
+| SEC-04 | Phase 5: Moderation | Pending |
+| FEED-01 | Phase 6: Feed & Engagement | Pending |
+| FEED-02 | Phase 6: Feed & Engagement | Pending |
+| FEED-03 | Phase 6: Feed & Engagement | Pending |
+| NOTF-01 | Phase 7: Notifications | Pending |
+| NOTF-02 | Phase 7: Notifications | Pending |
+| NOTF-03 | Phase 7: Notifications | Pending |
+| NOTF-04 | Phase 7: Notifications | Pending |
+| NOTF-05 | Phase 7: Notifications | Pending |
+| MGT-01 | Phase 8: Management API | Pending |
+| MGT-02 | Phase 8: Management API | Pending |
+| MGT-03 | Phase 8: Management API | Pending |
+| MGT-04 | Phase 8: Management API | Pending |
+| MGT-05 | Phase 8: Management API | Pending |
+| MGT-06 | Phase 8: Management API | Pending |
+| SEC-03 | Phase 8: Management API | Pending |
+| DOC-01 | Phase 8: Management API (cross-cutting; practiced every phase) | Pending |
+| DOC-02 | Phase 8: Management API (cross-cutting; practiced every phase) | Pending |
+| DOC-03 | Phase 8: Management API (cross-cutting; practiced every phase) | Pending |
 
 **Coverage:**
-- v1 requirements: 62 total
-- Mapped to phases: 62
+- v1 requirements: 67 total
+- Mapped to phases: 66
 - Unmapped: 0 ✓
+
+**Phase assignment notes:**
+- SEC-01 and SEC-02 (input validation, rate limiting) are assigned to Phase 3 — they are enforced at the submission layer and apply globally from that point forward
+- SEC-04 (private bucket access) is assigned to Phase 5 — it governs moderator access to the original EXIF images introduced in Phase 3 but enforced via moderator role established in Phase 5
+- SEC-03 (exhaustive cross-tenant test coverage) is assigned to Phase 8 — it is the final verification sweep, though per-phase RLS contract tests run throughout
+- DOC-01–DOC-03 are formally assigned to Phase 8 where the template is exercised on the last feature; the practice is applied in every prior phase
 
 ---
 *Requirements defined: 2026-03-23*
-*Last updated: 2026-03-23 after initial definition*
+*Last updated: 2026-03-23 — traceability expanded after roadmap creation*

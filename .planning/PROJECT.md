@@ -104,6 +104,8 @@ Citizens can submit a geolocated complaint and receive status updates — everyt
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | PostgreSQL RLS for multi-tenancy | Well-implemented RLS is as strong as schema isolation; avoids per-schema migration complexity with Adonis.js | — Pending |
+| `FORCE ROW LEVEL SECURITY` on all tenant-scoped tables | Prevents human error — even `migrator` (table owner) is subject to policies; no superuser credentials in app config | — Pending |
+| Tenant IDs: UUID v7; all other IDs: bigint serial | Tenants are externally referenceable and should be non-guessable/non-sequential; UUID v7 is time-sortable; other tables use bigint for join performance | — Pending |
 | Feature-based folder structure | Keeps all code for a feature co-located; prevents cross-feature coupling | — Pending |
 | HTTP adapter for ML image screening | Avoids hard dependency on a specific ML vendor; mockable in tests; real service injected via config | — Pending |
 | JWT + OAuth (no sessions) | API is mobile-first; stateless JWT is the right primitive; sessions add unnecessary complexity | — Pending |
