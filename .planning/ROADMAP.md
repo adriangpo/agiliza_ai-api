@@ -49,7 +49,13 @@ Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in ever
 4. `POST /auth/logout` adds the token's `jti` to the Redis blocklist; the same access token on a subsequent authenticated request returns HTTP 401
 5. `DELETE /users/me` removes PII from the user record, anonymizes the user's publications to "Cidadão Anônimo", and invalidates all tokens immediately
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Install packages + 3 migrations (users, auth_access_tokens, oauth_identities) + User model + OAuthIdentity model
+- [ ] 02-02-PLAN.md — Email/password auth (register, login, logout) + validators + AuthService + TDD tests
+- [ ] 02-03-PLAN.md — Google OAuth + profile endpoint (GET /users/me) + account deletion (AccountService) + TDD tests
+- [ ] 02-04-PLAN.md — Route registration + Bouncer UserPolicy + cross-tenant tests + API.md + MODELS.md
 
 ### Phase 3: Reports & Geospatial
 
@@ -155,7 +161,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 0/TBD | Not started | - |
-| 2. Authentication & Identity | 0/TBD | Not started | - |
+| 2. Authentication & Identity | 0/4 | Ready to execute | - |
 | 3. Reports & Geospatial | 0/TBD | Not started | - |
 | 4. Clustering | 0/TBD | Not started | - |
 | 5. Moderation | 0/TBD | Not started | - |
