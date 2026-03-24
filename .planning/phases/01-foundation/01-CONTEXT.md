@@ -102,12 +102,12 @@ No feature code ships in this phase. The output is infrastructure only.
 - `.planning/ROADMAP.md` — Phase 1 success criteria (5 observable outcomes that define "done")
 
 ### Research
-- `.planning/research/STACK.md` — Technology choices and rationale, what NOT to use, Adonis v6 vs v5 incompatibilities
-- `.planning/research/PITFALLS.md` — RLS + connection pool pitfall (C-1), two DB roles requirement (C-2), PgBouncer transaction mode warning, ESLint v9 flat config notes
+- `.planning/research/STACK.md` — Technology choices and rationale (⚠ written for v6, superseded — see 01-RESEARCH.md for v7-verified stack)
+- `.planning/research/PITFALLS.md` — RLS + connection pool pitfall (C-1), two DB roles requirement (C-2), PgBouncer transaction mode warning (⚠ v6-era; RLS/DB patterns still valid, framework-specific parts may differ)
 - `.planning/research/ARCHITECTURE.md` — Feature-based folder tree example, RLS wiring diagram, SET LOCAL transaction pattern
 
 ### External (verify before using)
-- AdonisJS v6 docs — https://docs.adonisjs.com (verify `@adonisjs/auth` JWT guard import path, `@adonisjs/queue` stability)
+- AdonisJS v7 docs — https://docs.adonisjs.com (auth v10 uses opaque access tokens; `@adonisjs/queue` v0.6.0 confirmed stable for v7)
 - PostGIS docs — https://postgis.net/docs/ST_DWithin.html (geography type distance queries)
 
 </canonical_refs>

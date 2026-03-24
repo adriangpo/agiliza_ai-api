@@ -83,16 +83,16 @@ Citizens can submit a geolocated complaint and receive status updates — everyt
 
 - **SRS reference:** https://github.com/matheuspereirasalvador/agiliza-ai-docs/blob/main/SRS.md (v1.4 Gold Master Final)
 - **Architecture:** Feature-based folder structure — each feature owns its routes, controllers, services, models, migrations, tests, and docs
-- **Framework:** Adonis.js v6 (latest stable) with Lucid ORM
+- **Framework:** Adonis.js v7 (Node.js 24, latest stable) with Lucid ORM v22
 - **Database:** PostgreSQL with RLS policies; PostGIS available for geospatial queries
-- **Auth:** JWT tokens + OAuth (Google/Apple) via `@adonisjs/auth`
+- **Auth:** Opaque access tokens + OAuth (Google/Apple) via `@adonisjs/auth` v10 (JWT guard removed in v7)
 - **Testing:** Japa (Adonis.js native test runner); tests run on every change
 - **ML adapter:** HTTP adapter interface with injectable mock for tests; real service plugged in later
 - **Docs:** Per-feature API documentation (models + endpoints) following a shared template; always updated alongside code changes
 
 ## Constraints
 
-- **Tech stack:** Adonis.js v6 — framework conventions must be followed, not worked around
+- **Tech stack:** Adonis.js v7 (Node.js 24) — framework conventions must be followed, not worked around
 - **Testing:** TDD is non-negotiable — no feature ships without tests written first
 - **Security:** RLS tenant isolation must be tested; any cross-tenant data leak is a critical failure
 - **Coupling:** No file should do too much — services, controllers, validators, and policies are always separate files
