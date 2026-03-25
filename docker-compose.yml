@@ -1,0 +1,32 @@
+# docker-compose.yml
+# D-15: Local dev services. Single source of truth for service config.
+# postgis/postgis:17-3.5 = PostgreSQL 17 with PostGIS 3.5 (matches CI)
+services:
+  postgres:
+    image: postgis/postgis:17-3.5
+    environment:
+      POSTGRES_USER: agiliza_ai
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: agiliza_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agiliza_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
