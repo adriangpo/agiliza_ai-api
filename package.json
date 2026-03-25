@@ -10,9 +10,11 @@
     "dev": "node ace serve --hmr",
     "test": "node ace test",
     "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint . --max-warnings 0 --fix",
+    "lint:fix": "eslint . --fix --max-warnings 0",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "lefthook install"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
@@ -73,6 +75,5 @@
       "./app/controllers/**/*.ts",
       "./app/middleware/*.ts"
     ]
-  },
-  "prettier": "@adonisjs/prettier-config"
+  }
 }

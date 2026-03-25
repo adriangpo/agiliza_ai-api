@@ -1,3 +1,6 @@
 .adonisjs
 node_modules
 build
+.planning
+CLAUDE.md
+database/schema.ts
