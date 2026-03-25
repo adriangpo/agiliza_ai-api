@@ -30,7 +30,8 @@
     "#config/*": "./config/*.js",
     "#transformers/*": "./app/transformers/*.js",
     "#features/*": "./app/features/*.js",
-    "#shared/*": "./app/shared/*.js"
+    "#shared/*": "./app/shared/*.js",
+    "#jobs/*": "./app/jobs/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^8.0.0",
