@@ -3,7 +3,11 @@
 // - @typescript-eslint strict rules
 // - Import ordering rules
 // - AdonisJS-specific patterns (no @ioc: strings, etc.)
-import { configApp } from '@adonisjs/eslint-config'
+// @types stub: @adonisjs/eslint-config ships no type declarations — ambient declaration added here.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { configApp } = require('@adonisjs/eslint-config') as {
+  configApp: () => unknown[]
+}
 
 export default [
   ...configApp(),
