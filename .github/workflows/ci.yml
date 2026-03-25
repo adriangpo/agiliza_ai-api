@@ -1,0 +1,152 @@
+# .github/workflows/ci.yml
+# INFRA-09: CI pipeline — runs on every push and PR to main.
+# D-13: Jobs: lint → test → build → security (in dependency order)
+# D-14: Any job failure blocks the pipeline.
+# D-16: All commands use make targets.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Job 1: Lint + Type Check ────────────────────────────────────────────────
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (ESLint --max-warnings 0)
+        run: make lint
+
+      - name: Type check (tsc --noEmit)
+        run: make typecheck
+
+  # ── Job 2: Test Suite ───────────────────────────────────────────────────────
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:17-3.5
+        env:
+          POSTGRES_USER: agiliza_ai
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: agiliza_ai_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 3s
+          --health-retries 5
+    env:
+      NODE_ENV: test
+      PORT: 3333
+      HOST: localhost
+      APP_KEY: ${{ secrets.APP_KEY || 'test-app-key-32-chars-minimum-ok' }}
+      LOG_LEVEL: error
+      DB_CONNECTION: pg_migrator
+      PG_HOST: localhost
+      PG_PORT: 5432
+      PG_USER: app
+      PG_PASSWORD: app_password
+      PG_DB_NAME: agiliza_ai_test
+      PG_MIGRATOR_USER: agiliza_ai
+      PG_MIGRATOR_PASSWORD: password
+      PG_TEST_DB_NAME: agiliza_ai_test
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create DB roles
+        run: |
+          PGPASSWORD=password psql -h localhost -U agiliza_ai -d agiliza_ai_test -c "
+            DO \$\$
+            BEGIN
+              IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'app') THEN
+                CREATE ROLE app LOGIN PASSWORD 'app_password' NOINHERIT;
+              END IF;
+            END \$\$;
+            GRANT CONNECT ON DATABASE agiliza_ai_test TO app;
+          "
+
+      - name: Run migrations
+        run: make migrate
+
+      - name: Grant app DML on migrated tables
+        run: |
+          PGPASSWORD=password psql -h localhost -U agiliza_ai -d agiliza_ai_test -c "
+            GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app;
+            GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app;
+          "
+
+      - name: Run test suite
+        run: make test
+
+  # ── Job 3: Build ────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: make build
+
+  # ── Job 4: Security Audit ───────────────────────────────────────────────────
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit (high severity)
+        run: npm audit --audit-level=high
