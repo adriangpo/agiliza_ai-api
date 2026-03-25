@@ -82,6 +82,11 @@ export default defineConfig({
         files: ['tests/integration/**/*.spec.ts'],
         timeout: 30_000,
       },
+      {
+        name: 'jobs',
+        files: ['tests/jobs/**/*.spec.ts'],
+        timeout: 10_000,
+      },
     ],
     forceExit: false,
   },
