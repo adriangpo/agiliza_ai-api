@@ -6,10 +6,10 @@ pre-commit:
   parallel: false
   commands:
     lint:
-      glob: "*.{ts,js}"
+      glob: '*.{ts,js}'
       run: npx eslint --max-warnings 0 {staged_files}
     format:
-      glob: "*.{ts,js}"
+      glob: '*.{ts,js}'
       run: npx prettier --write {staged_files} && git add {staged_files}
     typecheck:
       run: npx tsc --noEmit
