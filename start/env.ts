@@ -25,6 +25,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   PG_USER: Env.schema.string(),
   PG_PASSWORD: Env.schema.string(),
   PG_DB_NAME: Env.schema.string(),
+  // Migrator role — used only for migrations (DDL)
+  PG_MIGRATOR_USER: Env.schema.string(),
+  PG_MIGRATOR_PASSWORD: Env.schema.string(),
 
   // Redis
   REDIS_HOST: Env.schema.string(),

@@ -5,7 +5,7 @@
 # Note: Makefile targets cannot contain colons — use hyphens instead
 #   (e.g., test-watch instead of test:watch, migrate-fresh instead of migrate:fresh)
 
-.PHONY: up down dev build test test-watch lint lint-fix typecheck migrate migrate-fresh
+.PHONY: up down dev build test test-watch lint lint-fix typecheck migrate migrate-fresh setup-db
 
 # ── Docker Services ──────────────────────────────────────────────────────────
 up:
@@ -44,8 +44,12 @@ typecheck:
 # ── Database ─────────────────────────────────────────────────────────────────
 # D-07: Migrations run as 'migrator' role (DDL owner). Never run as 'app'.
 migrate:
-	node ace migration:run
+	DB_CONNECTION=pg_migrator node ace migration:run
 
 # D-17: migrate-fresh = migrate:fresh (colons not allowed in Makefile targets)
 migrate-fresh:
-	node ace migration:fresh --seed
+	DB_CONNECTION=pg_migrator node ace migration:fresh --seed
+
+# INFRA-04: One-time DB role setup — run as superuser before first migration.
+setup-db:
+	docker exec -i $$(docker compose ps -q postgres) psql -U agiliza_ai -f /dev/stdin < database/setup/create_roles.sql
