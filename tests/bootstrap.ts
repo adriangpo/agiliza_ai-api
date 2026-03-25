@@ -1,38 +1,28 @@
+// tests/bootstrap.ts
+// INFRA-07: Japa v5 test harness bootstrap.
+// Configures plugins, starts HTTP server, runs migrations, and sets up per-test transaction rollback.
+//
+// Per-test transaction rollback pattern (use in any test group that touches the DB):
+//   test.group('GroupName', (group) => {
+//     group.each.setup(() => testUtils.db().withGlobalTransaction())
+//   })
+// This wraps each test in a transaction that auto-rolls-back after the test completes.
+// The global transaction uses the same DB connection that set_config calls use, so
+// RLS context set via set_config inside a test is properly scoped.
 import { assert } from '@japa/assert'
 import { apiClient } from '@japa/api-client'
-import app from '@adonisjs/core/services/app'
-import type { Config } from '@japa/runner/types'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import testUtils from '@adonisjs/core/services/test_utils'
+import type { Config } from '@japa/runner/types'
 
-/**
- * This file is imported by the "bin/test.ts" entrypoint file
- */
+export const plugins: Config['plugins'] = [assert(), apiClient(), pluginAdonisJS(testUtils)]
 
-/**
- * Configure Japa plugins in the plugins array.
- * Learn more - https://japa.dev/docs/runner-config#plugins-optional
- */
-export const plugins: Config['plugins'] = [assert(), pluginAdonisJS(app), apiClient()]
-
-/**
- * Configure lifecycle function to run before and after all the
- * tests.
- *
- * The setup functions are executed before all the tests
- * The teardown functions are executed after all the tests
- */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-  setup: [],
-  teardown: [],
-}
-
-/**
- * Configure suites by tapping into the test suite instance.
- * Learn more - https://japa.dev/docs/test-suites#lifecycle-hooks
- */
-export const configureSuite: Config['configureSuite'] = (suite) => {
-  if (['functional', 'rls', 'integration'].includes(suite.name)) {
-    return suite.setup(() => testUtils.httpServer().start())
-  }
+  setup: [
+    // Start the HTTP test server on a random port (used by functional + rls + integration suites)
+    () => testUtils.httpServer().start(),
+    // Run all pending migrations against the test DB (NODE_ENV=test → PG_TEST_DB_NAME)
+    () => testUtils.db().migrate(),
+  ],
+  teardown: [() => testUtils.httpServer().close()],
 }
