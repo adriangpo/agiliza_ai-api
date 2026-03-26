@@ -12,17 +12,22 @@
 import { assert } from '@japa/assert'
 import { apiClient } from '@japa/api-client'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
+import app from '@adonisjs/core/services/app'
 import testUtils from '@adonisjs/core/services/test_utils'
 import type { Config } from '@japa/runner/types'
 
-export const plugins: Config['plugins'] = [assert(), apiClient(), pluginAdonisJS(testUtils)]
+export const plugins: Config['plugins'] = [assert(), apiClient(), pluginAdonisJS(app)]
+
+let closeHttpServer: (() => Promise<void>) | undefined
 
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
   setup: [
     // Start the HTTP test server on a random port (used by functional + rls + integration suites)
-    () => testUtils.httpServer().start(),
+    async () => {
+      closeHttpServer = await testUtils.httpServer().start()
+    },
     // Run all pending migrations against the test DB (NODE_ENV=test → PG_TEST_DB_NAME)
     () => testUtils.db().migrate(),
   ],
-  teardown: [() => testUtils.httpServer().close()],
+  teardown: [() => closeHttpServer?.()],
 }
