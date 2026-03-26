@@ -1,13 +1,18 @@
-// D-29: Reusable rate limiting middleware backed by Redis via @adonisjs/limiter.
-// This is the base class/type reference. Actual rate limits are configured per-route
-// using the @adonisjs/limiter throttle middleware in start/limiter.ts.
-// See start/kernel.ts — 'throttle' named middleware registered there.
+// D-29: Reusable rate limiting documentation for @adonisjs/limiter v3.
+// @adonisjs/limiter v3 does NOT provide a standalone throttle_middleware export.
+// Rate limiting is applied inline per route handler using the limiter service.
 //
-// Usage in route files (Phase 3+):
-//   import { middleware } from '#start/kernel'
-//   router.post('/reports', handler).use(middleware.throttle('submissions'))
+// Usage pattern (Phase 3+):
+//   import limiter from '@adonisjs/limiter/services/main'
 //
-// Limit definitions go in start/limiter.ts (created in Plan 01-07).
+//   router.post('/reports', async ({ request, response }) => {
+//     const key = `user:${ctx.auth.user!.id}:submissions`
+//     const limit = limiter.use({ requests: 5, duration: '24 hours' })
+//     await limit.attempt(key, () => { /* handler logic */ })
+//   })
+//
+// Limit definitions and keys go in start/limiter.ts (created in Plan 01-07).
+// See: https://docs.adonisjs.com/guides/rate-limiting
 export {}
-// This file is intentionally minimal — it documents the usage pattern.
-// The actual throttle middleware is provided by @adonisjs/limiter.
+// This file is intentionally minimal — it documents the correct usage pattern.
+// The limiter service is provided by @adonisjs/limiter.
