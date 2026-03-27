@@ -35,7 +35,9 @@
     "#transformers/*": "./app/transformers/*.js",
     "#features/*": "./app/features/*.js",
     "#shared/*": "./app/shared/*.js",
-    "#jobs/*": "./app/jobs/*.js"
+    "#jobs/*": "./app/jobs/*.js",
+    "#abilities/*": "./app/abilities/*.js",
+    "#generated/*": "./.generated/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^8.0.0",
@@ -60,7 +62,9 @@
     "youch": "^4.1.0"
   },
   "dependencies": {
+    "@adonisjs/ally": "^6.0.0",
     "@adonisjs/auth": "^10.0.0",
+    "@adonisjs/bouncer": "^4.0.0",
     "@adonisjs/core": "^7.0.0",
     "@adonisjs/cors": "^3.0.0",
     "@adonisjs/drive": "^4.0.0",

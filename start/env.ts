@@ -35,4 +35,9 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   // CORS
   CORS_ALLOWED_ORIGINS: Env.schema.string(),
+
+  // Google OAuth (AUTH-02)
+  GOOGLE_CLIENT_ID: Env.schema.string(),
+  GOOGLE_CLIENT_SECRET: Env.schema.string(),
+  GOOGLE_CALLBACK_URL: Env.schema.string(),
 })
