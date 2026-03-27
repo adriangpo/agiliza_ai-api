@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Completed 01-09-PLAN.md (Rate Limiter Comment Fix)
-last_updated: "2026-03-27T17:52:19.162Z"
+status: Ready to execute
+stopped_at: Completed 01.1-01-PLAN.md (pnpm lockfile migration)
+last_updated: "2026-03-27T18:58:10.868Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 9
   completed_phases: 1
-  total_plans: 13
-  completed_plans: 9
+  total_plans: 16
+  completed_plans: 10
 ---
 
 # Project State
@@ -20,12 +20,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-23)
 
 **Core value:** Citizens can submit a geolocated complaint and receive status updates — everything else amplifies this but cannot replace it.
-**Current focus:** Phase 01 — foundation
+**Current focus:** Phase 01.1 — change-project-to-pnpm-latest
 
 ## Current Position
 
-Phase: 01.1
-Plan: Not started
+Phase: 01.1 (change-project-to-pnpm-latest) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Plan: Not started
 | Phase 01-foundation P07 | 20min | 2 tasks | 9 files |
 | Phase 01-foundation P08 | 3 | 1 tasks | 1 files |
 | Phase 01-foundation P09 | 201s | 2 tasks | 2 files |
+| Phase 01.1-change-project-to-pnpm-latest P01 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,7 @@ Active decisions affecting Phase 1:
 - [Phase 01-foundation]: Job dispatch uses static JobClass.dispatch(payload) + Locator.register() in test setup; no queue service injection needed
 - [Phase 01-foundation]: @adonisjs/limiter v3 inline pattern documented: each feature creates its own middleware file in app/features/{name}/middleware/ — rate_limit_middleware.ts is a documentation artifact, not a base class
 - [Phase 01-foundation]: engines.node >=24 added to package.json — npm/CI warns on incompatible Node.js; task was pre-completed via quick task 260325-u17
+- [Phase 01.1-change-project-to-pnpm-latest]: pnpm@10.33.0 pinned via packageManager field; pnpm import used for lockfile-preserving migration; no hoisting config required
 
 ### Roadmap Evolution
 
@@ -109,6 +111,6 @@ None yet.
 ## Session Continuity
 
 Last activity: 2026-03-27
-Last session: 2026-03-27T17:41:58.032Z
-Stopped at: Completed 01-09-PLAN.md (Rate Limiter Comment Fix)
+Last session: 2026-03-27T18:58:10.865Z
+Stopped at: Completed 01.1-01-PLAN.md (pnpm lockfile migration)
 Resume file: None
