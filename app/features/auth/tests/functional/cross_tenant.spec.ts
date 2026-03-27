@@ -75,14 +75,11 @@ test.group('Cross-tenant isolation / token resolves to correct tenant', (group) 
       .insert({ id: tenantAId, name: 'Tenant A', slug: `tenant-a-${tenantAId}` })
 
     // Register user in tenant A — sets app.tenant_id = tenantAId
-    const registerA = await client
-      .post('/auth/register')
-      .header('X-Tenant-ID', tenantAId)
-      .json({
-        email: 'isolation-test@example.com',
-        password: 'SecurePass1',
-        displayName: 'Tenant A User',
-      })
+    const registerA = await client.post('/auth/register').header('X-Tenant-ID', tenantAId).json({
+      email: 'isolation-test@example.com',
+      password: 'SecurePass1',
+      displayName: 'Tenant A User',
+    })
     tokenA = registerA.body().token.value
     userAId = registerA.body().user.id
   })
@@ -90,9 +87,7 @@ test.group('Cross-tenant isolation / token resolves to correct tenant', (group) 
   test('token from tenant A resolves to tenant A user', async ({ client, assert }) => {
     // Token A is valid — auth middleware verifies token, loads user (with tenantId = tenantAId).
     // TenantMiddleware reads auth.user.tenantId and sets app.tenant_id for RLS.
-    const meResponse = await client
-      .get('/users/me')
-      .header('Authorization', `Bearer ${tokenA}`)
+    const meResponse = await client.get('/users/me').header('Authorization', `Bearer ${tokenA}`)
 
     meResponse.assertStatus(200)
     assert.equal(meResponse.body().user.id, userAId)

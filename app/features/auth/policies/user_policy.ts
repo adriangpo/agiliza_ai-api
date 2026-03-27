@@ -3,7 +3,7 @@
 // UserPolicy governs account-level operations.
 import { BasePolicy } from '@adonisjs/bouncer'
 import type { AuthorizerResponse } from '@adonisjs/bouncer/types'
-import User from '#models/user'
+import type User from '#models/user'
 
 export default class UserPolicy extends BasePolicy {
   /**

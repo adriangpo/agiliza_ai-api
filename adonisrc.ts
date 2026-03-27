@@ -15,7 +15,7 @@ export default defineConfig({
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
     () => import('@adonisjs/queue/commands'),
-    () => import('@adonisjs/bouncer/commands')
+    () => import('@adonisjs/bouncer/commands'),
   ],
 
   /*
@@ -106,6 +106,6 @@ export default defineConfig({
   */
   metaFiles: [],
   hooks: {
-    init: [indexPolicies()]
-  }
+    init: [indexPolicies()],
+  },
 })

@@ -12,7 +12,7 @@ export default class TenantMiddleware {
     // See start/kernel.ts: auth guard applied before tenant in route groups.
     // User.tenantId is added by the Phase 2 migration — cast via unknown is safe here because
     // TenantMiddleware is only wired to routes that require auth (see start/kernel.ts named middleware).
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const user = ctx.auth.user! as any
     const tenantId = user.tenantId as string
 

@@ -62,9 +62,7 @@ test.group('RLS: Tenant Isolation Contract', (group) => {
     // Transaction has ended — is_local=true means the setting was reset
 
     // Query OUTSIDE the transaction — should return NULL or empty string
-    const result = await db.rawQuery(
-      `SELECT current_setting('app.tenant_id', true) AS tenant_id`
-    )
+    const result = await db.rawQuery(`SELECT current_setting('app.tenant_id', true) AS tenant_id`)
     const value = result.rows[0].tenant_id
 
     assert.isTrue(
@@ -112,21 +110,13 @@ test.group('RLS: Tenant Isolation Contract', (group) => {
       await trx.rawQuery(`SELECT set_config('app.tenant_id', ?, true)`, [tenantAId])
       const resultA = await trx.rawQuery(`SELECT tenant_id FROM test_rls_items`)
       assert.lengthOf(resultA.rows, 1, 'Tenant A should see exactly 1 row (their own)')
-      assert.equal(
-        resultA.rows[0].tenant_id,
-        tenantAId,
-        'The visible row must belong to tenant A'
-      )
+      assert.equal(resultA.rows[0].tenant_id, tenantAId, 'The visible row must belong to tenant A')
 
       // Query as tenant B — should see only tenant B's row
       await trx.rawQuery(`SELECT set_config('app.tenant_id', ?, true)`, [tenantBId])
       const resultB = await trx.rawQuery(`SELECT tenant_id FROM test_rls_items`)
       assert.lengthOf(resultB.rows, 1, 'Tenant B should see exactly 1 row (their own)')
-      assert.equal(
-        resultB.rows[0].tenant_id,
-        tenantBId,
-        'The visible row must belong to tenant B'
-      )
+      assert.equal(resultB.rows[0].tenant_id, tenantBId, 'The visible row must belong to tenant B')
     })
   })
 

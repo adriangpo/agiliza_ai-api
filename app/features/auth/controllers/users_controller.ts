@@ -12,9 +12,12 @@ export default class UsersController {
     return response.ok({ user: auth.user!.serialize() })
   }
 
-  async deleteMe({ auth, response }: HttpContext) {
+  async deleteMe({ auth, response, db }: HttpContext) {
     const accountService = new AccountService()
-    await accountService.deleteAccount(auth.user!)
+    // D-Rule-1: Pass ctx.db (tenant-scoped transaction handle from TenantMiddleware) to
+    // AccountService so it uses the same transaction rather than opening a new db.transaction().
+    // Using ctx.db prevents nested transaction conflicts with withGlobalTransaction() in tests.
+    await accountService.deleteAccount(auth.user!, db)
     // AUTH-07: 204 — no response body
     return response.noContent()
   }
