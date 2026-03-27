@@ -12,11 +12,10 @@ test.group('Google OAuth', () => {
     response.assert?.oneOf(response.status(), [301, 302])
   })
 
+  // Ally driver mock not available in Japa Phase 2 test setup — manual-only test.
+  // D-09: new user with role citizen created when email not in tenant.
+  // Manual verification via Postman OAuth2 flow (see docs/features/auth/VALIDATION.md).
   test('GET /auth/google/callback — new user created and token returned', async () => {
-    // This test requires mocking the Ally driver.
-    // If ally mocking is not available in Phase 2 test setup, this is a manual-only test.
-    // Mark as skip and document in VALIDATION.md as manual verification.
-    // D-09: new user with role citizen created when email not in tenant.
-    test.skip('Requires ally driver mock — manual verification via Postman OAuth2 flow')
-  })
+    // Placeholder — ally mock not available yet; see comment above
+  }).skip(true)
 })
