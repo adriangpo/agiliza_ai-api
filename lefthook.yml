@@ -7,14 +7,14 @@ pre-commit:
   commands:
     lint:
       glob: '*.{ts,js}'
-      run: npx eslint --max-warnings 0 {staged_files}
+      run: pnpm exec eslint --max-warnings 0 {staged_files}
     format:
       glob: '*.{ts,js}'
-      run: npx prettier --write {staged_files} && git add {staged_files}
+      run: pnpm exec prettier --write {staged_files} && git add {staged_files}
     typecheck:
-      run: npx tsc --noEmit
+      run: pnpm exec tsc --noEmit
 
 commit-msg:
   commands:
     commitlint:
-      run: npx commitlint --edit {1}
+      run: pnpm exec commitlint --edit {1}
