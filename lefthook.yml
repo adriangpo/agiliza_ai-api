@@ -2,19 +2,21 @@
 # INFRA-02 — D-19, D-20, D-21
 # Pre-commit: lint staged TypeScript files, format, and type-check.
 # commit-msg: enforce Conventional Commits format.
+# Note: uses ./node_modules/.bin/ directly for git worktree compatibility
+# (pnpm exec resolves packages from local node_modules which may be empty in worktrees)
 pre-commit:
   parallel: false
   commands:
     lint:
       glob: '*.{ts,js}'
-      run: pnpm exec eslint --max-warnings 0 {staged_files}
+      run: ./node_modules/.bin/eslint --max-warnings 0 {staged_files}
     format:
       glob: '*.{ts,js}'
-      run: pnpm exec prettier --write {staged_files} && git add {staged_files}
+      run: ./node_modules/.bin/prettier --write {staged_files} && git add {staged_files}
     typecheck:
-      run: pnpm exec tsc --noEmit
+      run: ./node_modules/.bin/tsc --noEmit
 
 commit-msg:
   commands:
     commitlint:
-      run: pnpm exec commitlint --edit {1}
+      run: ./node_modules/.bin/commitlint --edit {1}

@@ -30,7 +30,7 @@ server.use([
 router.use([
   () => import('@adonisjs/core/bodyparser_middleware'),
   () => import('@adonisjs/auth/initialize_auth_middleware'),
-  () => import('#middleware/initialize_bouncer_middleware')
+  () => import('#middleware/initialize_bouncer_middleware'),
 ])
 
 /**
@@ -46,6 +46,9 @@ router.use([
 export const middleware = router.named({
   auth: () => import('#middleware/auth_middleware'),
   tenant: () => import('#shared/middleware/tenant_middleware'),
+  // publicTenant: reads X-Tenant-ID header for public routes (register, login) that have no auth token.
+  // Use on routes that need tenant context but do not require authentication.
+  publicTenant: () => import('#shared/middleware/public_tenant_middleware'),
   // throttle: @adonisjs/limiter v3 does not ship a standalone throttle_middleware export.
   // Rate limiting in this version is applied inline in route handlers via the limiter service.
   // See app/shared/middleware/rate_limit_middleware.ts for the usage pattern documentation.

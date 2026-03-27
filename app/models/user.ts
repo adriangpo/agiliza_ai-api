@@ -4,14 +4,21 @@
 // D-09: bigint serial id; uuid tenant_id FK.
 // AUTH-06: Public profile serializes id, displayName, joinedAt only.
 //   email, password, role, tenantId, deletedAt are all excluded via serializeAs: null.
+// withAuthFinder: provides User.verifyCredentials(email, password) for login (AUTH-01).
 import { DateTime } from 'luxon'
-import { BaseModel, column, beforeSave, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import hash from '@adonisjs/core/services/hash'
 import OAuthIdentity from '#models/oauth_identity'
 
-export default class User extends BaseModel {
+const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
+  uids: ['email'],
+  passwordColumnName: 'password',
+})
+
+export default class User extends AuthFinder(BaseModel) {
   // AUTH-03: Opaque access tokens config.
   // D-01 (CONTEXT.md): expiresIn 90 days — long-lived, instantly revocable from DB.
   // UI-SPEC: prefix 'oat_' — token.value always starts with 'oat_'.
@@ -61,13 +68,7 @@ export default class User extends BaseModel {
 
   @hasMany(() => OAuthIdentity)
   declare oauthIdentities: HasMany<typeof OAuthIdentity>
-
-  // AUTH-01: Hash password before save (create + update).
-  // Skips hashing if password is null (OAuth-only accounts after deletion anonymization).
-  @beforeSave()
-  static async hashPassword(user: User) {
-    if (user.$dirty.password && user.password !== null) {
-      user.password = await hash.make(user.password)
-    }
-  }
+  // Note: password hashing before save is handled by the withAuthFinder mixin (hashPassword hook).
+  // The mixin's @beforeSave hook calls hash.make() for any dirty password field.
+  // Do NOT add a second @beforeSave hash hook here — it would double-hash the password.
 }

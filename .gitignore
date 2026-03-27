@@ -1,5 +1,8 @@
 node_modules
 build
 .env
+.env.test
 tmp/*.db
 tmp/*.sqlite
+.adonisjs/
+database/schema.ts

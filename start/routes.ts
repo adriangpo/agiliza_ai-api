@@ -15,3 +15,7 @@ import router from '@adonisjs/core/services/router'
 router.get('/', async () => {
   return { hello: 'world' }
 })
+
+// Feature routes
+// AUTH-01, AUTH-03, AUTH-05: Registration, login, logout
+import '#features/auth/routes'

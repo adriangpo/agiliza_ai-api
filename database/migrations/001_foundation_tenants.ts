@@ -17,8 +17,10 @@ export default class extends BaseSchema {
       table.timestamps(true, true)
     })
 
-    // Grant app role access to tenants (read-only: app never inserts tenants)
-    await this.db.rawQuery(`GRANT SELECT ON tenants TO app`)
+    // Grant app role access to tenants (read-only: app never inserts tenants).
+    // MUST use this.schema.raw() (deferred) — NOT this.db.rawQuery() (immediate).
+    // this.schema.createTable() is deferred; using rawQuery here would GRANT before CREATE TABLE runs.
+    this.schema.raw(`GRANT SELECT ON tenants TO app`)
 
     // ──────────────────────────────────────────────────────────────────────
     // CANONICAL RLS PATTERN FOR ALL FUTURE TENANT-SCOPED TABLES

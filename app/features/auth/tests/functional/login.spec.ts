@@ -1,14 +1,27 @@
 // app/features/auth/tests/functional/login.spec.ts
 // AUTH-01, AUTH-03: Login — returns opaque token on valid credentials.
+// X-Tenant-ID header required: PublicTenantMiddleware resolves tenant context for public routes.
 import { test } from '@japa/runner'
 import testUtils from '@adonisjs/core/services/test_utils'
+import db from '@adonisjs/lucid/services/db'
+import { uuidv7 } from 'uuidv7'
 
 test.group('POST /auth/login', (group) => {
+  // Wrap default (app) connection in a global transaction for test isolation.
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
+  let tenantId: string
+
   group.each.setup(async ({ context: { client } }) => {
+    tenantId = uuidv7()
+    // Insert test tenant via app connection (within the global transaction).
+    // In test DB, app role has INSERT granted on tenants for test isolation purposes.
+    await db
+      .table('tenants')
+      .insert({ id: tenantId, name: 'Test Tenant', slug: `tenant-${tenantId}` })
+
     // Pre-register a user for login tests
-    await client.post('/auth/register').json({
+    await client.post('/auth/register').header('X-Tenant-ID', tenantId).json({
       email: 'login-test@example.com',
       password: 'SecurePass1',
       displayName: 'Login Test User',
@@ -16,7 +29,7 @@ test.group('POST /auth/login', (group) => {
   })
 
   test('200 — valid credentials return token', async ({ client, assert }) => {
-    const response = await client.post('/auth/login').json({
+    const response = await client.post('/auth/login').header('X-Tenant-ID', tenantId).json({
       email: 'login-test@example.com',
       password: 'SecurePass1',
     })
@@ -29,7 +42,7 @@ test.group('POST /auth/login', (group) => {
   })
 
   test('401 — wrong password returns generic error (no user enumeration)', async ({ client }) => {
-    const response = await client.post('/auth/login').json({
+    const response = await client.post('/auth/login').header('X-Tenant-ID', tenantId).json({
       email: 'login-test@example.com',
       password: 'WrongPassword1',
     })
@@ -41,7 +54,7 @@ test.group('POST /auth/login', (group) => {
   })
 
   test('401 — unknown email returns same generic error', async ({ client }) => {
-    const response = await client.post('/auth/login').json({
+    const response = await client.post('/auth/login').header('X-Tenant-ID', tenantId).json({
       email: 'notexist@example.com',
       password: 'SecurePass1',
     })

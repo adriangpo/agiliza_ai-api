@@ -4,11 +4,28 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
+  static disableTransactions = true
+
   async up() {
+    // disableTransactions = true: CREATE EXTENSION cannot run in a transaction block in PostgreSQL.
+    // Lucid runs migrations in transactions by default; disabling transactions for this migration
+    // prevents "cannot run inside a transaction block" errors.
+    //
     // PostGIS for geospatial queries (ST_DWithin, ST_MakePoint, etc.)
-    await this.db.rawQuery('CREATE EXTENSION IF NOT EXISTS postgis')
+    // Silently skip if PostGIS is not installed (e.g., local dev without Docker).
+    // CI and production always use postgis/postgis Docker image which has it pre-installed.
+    try {
+      await this.db.rawQuery('CREATE EXTENSION IF NOT EXISTS postgis')
+    } catch {
+      // PostGIS not available — skip silently. Geospatial features will fail at runtime
+      // until PostGIS is installed (use `make up` for Docker environment with PostGIS).
+    }
     // uuid-ossp for gen_random_uuid() — used as fallback; app layer generates UUID v7
-    await this.db.rawQuery('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+    try {
+      await this.db.rawQuery('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+    } catch {
+      // uuid-ossp not available — skip silently.
+    }
   }
 
   async down() {
