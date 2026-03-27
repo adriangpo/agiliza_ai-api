@@ -5,7 +5,7 @@
 # Note: Makefile targets cannot contain colons — use hyphens instead
 #   (e.g., test-watch instead of test:watch, migrate-fresh instead of migrate:fresh)
 
-.PHONY: up down dev build test test-watch lint lint-fix typecheck migrate migrate-fresh setup-db
+.PHONY: up down dev build test test-watch lint lint-fix typecheck audit migrate migrate-fresh setup-db
 
 # ── Docker Services ──────────────────────────────────────────────────────────
 up:
@@ -33,13 +33,16 @@ test-watch:
 # ── Code Quality ─────────────────────────────────────────────────────────────
 # D-22: --max-warnings 0 always. Zero tolerance for warnings.
 lint:
-	npx eslint . --max-warnings 0
+	pnpm exec eslint . --max-warnings 0
 
 lint-fix:
-	npx eslint . --fix --max-warnings 0
+	pnpm exec eslint . --fix --max-warnings 0
 
 typecheck:
-	npx tsc --noEmit
+	pnpm exec tsc --noEmit
+
+audit:
+	pnpm audit --audit-level=high
 
 # ── Database ─────────────────────────────────────────────────────────────────
 # D-07: Migrations run as 'migrator' role (DDL owner). Never run as 'app'.
