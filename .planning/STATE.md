@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 01.1-02-PLAN.md (pnpm command surface migration)
-last_updated: "2026-03-27T19:00:46.472Z"
+status: Phase complete — ready for verification
+stopped_at: Completed 01.1-03-PLAN.md (CI pnpm migration)
+last_updated: "2026-03-27T19:04:06.148Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 9
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 16
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -53,6 +53,7 @@ Plan: 3 of 3
 | Phase 01-foundation P09 | 201s | 2 tasks | 2 files |
 | Phase 01.1-change-project-to-pnpm-latest P01 | 2min | 2 tasks | 3 files |
 | Phase 01.1-change-project-to-pnpm-latest P02 | 1min | 2 tasks | 2 files |
+| Phase 01.1-change-project-to-pnpm-latest P03 | 2min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,7 @@ Active decisions affecting Phase 1:
 - [Phase 01-foundation]: engines.node >=24 added to package.json — npm/CI warns on incompatible Node.js; task was pre-completed via quick task 260325-u17
 - [Phase 01.1-change-project-to-pnpm-latest]: pnpm@10.33.0 pinned via packageManager field; pnpm import used for lockfile-preserving migration; no hoisting config required
 - [Phase 01.1-change-project-to-pnpm-latest]: pnpm exec chosen over pnpm run for Makefile and lefthook tool invocations — resolves binaries from node_modules/.bin without requiring a package.json script entry
+- [Phase 01.1-change-project-to-pnpm-latest]: pnpm/action-setup@v5 with no version field reads packageManager pin from package.json; make audit replaces inline npm audit in CI security job
 
 ### Roadmap Evolution
 
@@ -113,6 +115,6 @@ None yet.
 ## Session Continuity
 
 Last activity: 2026-03-27
-Last session: 2026-03-27T19:00:46.469Z
-Stopped at: Completed 01.1-02-PLAN.md (pnpm command surface migration)
+Last session: 2026-03-27T19:04:06.145Z
+Stopped at: Completed 01.1-03-PLAN.md (CI pnpm migration)
 Resume file: None
