@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: In progress
-stopped_at: Completed 02-02-PLAN.md (auth register/login/logout)
-last_updated: "2026-03-27T22:00:00.000Z"
+stopped_at: Completed 02-03-PLAN.md (social auth, profile, account deletion)
+last_updated: "2026-03-27T22:08:57.264Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 9
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-03-23)
 ## Current Position
 
 Phase: 02-authentication-identity
-Plan: 02-02 complete (register/login/logout)
+Plan: 02-03 complete (social auth, profile, account deletion)
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Plan: 02-02 complete (register/login/logout)
 | Phase 01.1-change-project-to-pnpm-latest P02 | 1min | 2 tasks | 2 files |
 | Phase 01.1-change-project-to-pnpm-latest P03 | 2min | 2 tasks | 1 files |
 | Phase 02-authentication-identity P02 | 180min | 2 tasks | 17 files |
+| Phase 02-authentication-identity P03 | 265 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,9 @@ Active decisions affecting Phase 1:
 - [Phase 02-02]: Lucid GRANT must use schema.raw() (deferred) not db.rawQuery() (immediate) — runs after CREATE TABLE
 - [Phase 02-02]: Test bootstrap uses pg_migrator connection for migrations; GRANT INSERT ON tenants TO app added for test isolation
 - [Phase 02-02]: lefthook.yml uses ./node_modules/.bin/ paths instead of pnpm exec for git worktree compatibility
+- [Phase 02-authentication-identity]: tokensUserProvider has no verifyCredentials — manual User.query + hash.verify required (auth_service.ts)
+- [Phase 02-authentication-identity]: Japa .skip(true) is correct syntax — .skip(string) is TypeScript-invalid (TS2345)
+- [Phase 02-authentication-identity]: AccountService deletes tokens before PII overwrite — prevents token replay during transaction window
 
 ### Roadmap Evolution
 
@@ -121,6 +125,6 @@ None yet.
 ## Session Continuity
 
 Last activity: 2026-03-27
-Last session: 2026-03-27T22:00:00.000Z
-Stopped at: Completed 02-02-PLAN.md (auth register/login/logout)
+Last session: 2026-03-27T22:08:57.261Z
+Stopped at: Completed 02-03-PLAN.md (social auth, profile, account deletion)
 Resume file: None
