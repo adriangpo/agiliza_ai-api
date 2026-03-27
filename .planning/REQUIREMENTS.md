@@ -12,16 +12,16 @@
 
 ### Foundation & Infrastructure
 
-- [ ] **INFRA-01**: Project scaffolded with AdonisJS v7 API kit (Node.js 24), TypeScript, and feature-based folder structure
-- [ ] **INFRA-02**: ESLint v10 flat config + Prettier enforced; Lefthook pre-commit hooks block non-conforming commits
-- [ ] **INFRA-03**: PostgreSQL database configured with PostGIS extension enabled
-- [ ] **INFRA-04**: Two DB roles established: `migrator` (DDL + RLS policy owner) and `app` (DML only, RLS-restricted); no superuser credentials ever present in application config
-- [ ] **INFRA-05**: `FORCE ROW LEVEL SECURITY` applied to all tenant-scoped tables — enforces RLS even on the table owner (`migrator`), preventing human error from direct DB connections
-- [ ] **INFRA-05b**: Tenants table uses UUID v7 as primary key; all other tables use `bigint` serial/incremental IDs; tenant FK columns on all tables are `uuid` type
-- [ ] **INFRA-06**: `TenantMiddleware` sets `set_config('app.tenant_id', ..., true)` inside a transaction before every query — verified with exhaustive cross-tenant leakage tests
-- [ ] **INFRA-07**: Japa test runner configured with database transaction rollback per test; global tenant context injectable in tests
-- [ ] **INFRA-08**: `@adonisjs/queue` + Redis configured for async background jobs (clustering, notifications, ML screening); Sync adapter used in test environment
-- [ ] **INFRA-09**: CI pipeline runs lint, type-check, and full test suite on every push
+- [x] **INFRA-01**: Project scaffolded with AdonisJS v7 API kit (Node.js 24), TypeScript, and feature-based folder structure
+- [x] **INFRA-02**: ESLint v10 flat config + Prettier enforced; Lefthook pre-commit hooks block non-conforming commits
+- [x] **INFRA-03**: PostgreSQL database configured with PostGIS extension enabled
+- [x] **INFRA-04**: Two DB roles established: `migrator` (DDL + RLS policy owner) and `app` (DML only, RLS-restricted); no superuser credentials ever present in application config
+- [x] **INFRA-05**: `FORCE ROW LEVEL SECURITY` applied to all tenant-scoped tables — enforces RLS even on the table owner (`migrator`), preventing human error from direct DB connections
+- [x] **INFRA-05b**: Tenants table uses UUID v7 as primary key; all other tables use `bigint` serial/incremental IDs; tenant FK columns on all tables are `uuid` type
+- [x] **INFRA-06**: `TenantMiddleware` sets `set_config('app.tenant_id', ..., true)` inside a transaction before every query — verified with exhaustive cross-tenant leakage tests
+- [x] **INFRA-07**: Japa test runner configured with database transaction rollback per test; global tenant context injectable in tests
+- [x] **INFRA-08**: `@adonisjs/queue` + Redis configured for async background jobs (clustering, notifications, ML screening); Sync adapter used in test environment
+- [x] **INFRA-09**: CI pipeline runs lint, type-check, and full test suite on every push
 
 ### Authentication & Identity
 
@@ -150,16 +150,16 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 1: Foundation | Pending |
-| INFRA-02 | Phase 1: Foundation | Pending |
-| INFRA-03 | Phase 1: Foundation | Pending |
-| INFRA-04 | Phase 1: Foundation | Pending |
-| INFRA-05 | Phase 1: Foundation | Pending |
-| INFRA-05b | Phase 1: Foundation | Pending |
-| INFRA-06 | Phase 1: Foundation | Pending |
-| INFRA-07 | Phase 1: Foundation | Pending |
-| INFRA-08 | Phase 1: Foundation | Pending |
-| INFRA-09 | Phase 1: Foundation | Pending |
+| INFRA-01 | Phase 1: Foundation | Complete |
+| INFRA-02 | Phase 1: Foundation | Complete |
+| INFRA-03 | Phase 1: Foundation | Complete |
+| INFRA-04 | Phase 1: Foundation | Complete |
+| INFRA-05 | Phase 1: Foundation | Complete |
+| INFRA-05b | Phase 1: Foundation | Complete |
+| INFRA-06 | Phase 1: Foundation | Complete |
+| INFRA-07 | Phase 1: Foundation | Complete |
+| INFRA-08 | Phase 1: Foundation | Complete |
+| INFRA-09 | Phase 1: Foundation | Complete |
 | AUTH-01 | Phase 2: Authentication & Identity | Pending |
 | AUTH-02 | Phase 2: Authentication & Identity | Pending |
 | AUTH-03 | Phase 2: Authentication & Identity | Pending |

@@ -35,6 +35,16 @@ Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in ever
 
 **Plans:** 9/9 plans executed
 
+### Phase 01.1: Change project to pnpm (latest) (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 1
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 01.1 to break down)
+
 ### Phase 2: Authentication & Identity
 
 **Goal:** Users can create accounts, authenticate with email/password or OAuth, receive short-lived JWT access tokens with `tenantId` in the payload, refresh them, log out with immediate token invalidation, and delete their account with cascading anonymization — all scoped per tenant.

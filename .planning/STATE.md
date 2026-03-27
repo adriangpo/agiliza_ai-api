@@ -7,7 +7,7 @@ stopped_at: Completed 01-09-PLAN.md (Rate Limiter Comment Fix)
 last_updated: "2026-03-27T17:41:58.037Z"
 last_activity: 2026-03-27
 progress:
-  total_phases: 8
+  total_phases: 9
   completed_phases: 0
   total_plans: 13
   completed_plans: 9
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-03-23)
 ## Current Position
 
 Phase: 01 (foundation) — EXECUTING
-Plan: 7 of 7
+Plan: 1 of 9
 
 ## Performance Metrics
 
@@ -82,6 +82,10 @@ Active decisions affecting Phase 1:
 - [Phase 01-foundation]: Job dispatch uses static JobClass.dispatch(payload) + Locator.register() in test setup; no queue service injection needed
 - [Phase 01-foundation]: @adonisjs/limiter v3 inline pattern documented: each feature creates its own middleware file in app/features/{name}/middleware/ — rate_limit_middleware.ts is a documentation artifact, not a base class
 - [Phase 01-foundation]: engines.node >=24 added to package.json — npm/CI warns on incompatible Node.js; task was pre-completed via quick task 260325-u17
+
+### Roadmap Evolution
+
+- Phase 01.1 inserted after Phase 1: Change project to pnpm (latest) (URGENT)
 
 ### Open Questions (from research — resolve before phase begins)
 
