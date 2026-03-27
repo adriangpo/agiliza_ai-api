@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: Completed 01.1-03-PLAN.md (CI pnpm migration)
-last_updated: "2026-03-27T19:06:52.876Z"
+status: In progress
+stopped_at: Completed 02-02-PLAN.md (auth register/login/logout)
+last_updated: "2026-03-27T22:00:00.000Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 9
   completed_phases: 2
   total_plans: 16
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # Project State
@@ -24,8 +24,8 @@ See: .planning/PROJECT.md (updated 2026-03-23)
 
 ## Current Position
 
-Phase: 02
-Plan: Not started
+Phase: 02-authentication-identity
+Plan: 02-02 complete (register/login/logout)
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Plan: Not started
 | Phase 01.1-change-project-to-pnpm-latest P01 | 2min | 2 tasks | 3 files |
 | Phase 01.1-change-project-to-pnpm-latest P02 | 1min | 2 tasks | 2 files |
 | Phase 01.1-change-project-to-pnpm-latest P03 | 2min | 2 tasks | 1 files |
+| Phase 02-authentication-identity P02 | 180min | 2 tasks | 17 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,11 @@ Active decisions affecting Phase 1:
 - [Phase 01.1-change-project-to-pnpm-latest]: pnpm@10.33.0 pinned via packageManager field; pnpm import used for lockfile-preserving migration; no hoisting config required
 - [Phase 01.1-change-project-to-pnpm-latest]: pnpm exec chosen over pnpm run for Makefile and lefthook tool invocations — resolves binaries from node_modules/.bin without requiring a package.json script entry
 - [Phase 01.1-change-project-to-pnpm-latest]: pnpm/action-setup@v5 with no version field reads packageManager pin from package.json; make audit replaces inline npm audit in CI security job
+- [Phase 02-02]: PublicTenantMiddleware reads X-Tenant-ID header for public routes; TenantMiddleware reads from auth.user.tenantId for authenticated routes
+- [Phase 02-02]: Test tenants inserted via app connection within withGlobalTransaction() — HTTP server sees same uncommitted row
+- [Phase 02-02]: Lucid GRANT must use schema.raw() (deferred) not db.rawQuery() (immediate) — runs after CREATE TABLE
+- [Phase 02-02]: Test bootstrap uses pg_migrator connection for migrations; GRANT INSERT ON tenants TO app added for test isolation
+- [Phase 02-02]: lefthook.yml uses ./node_modules/.bin/ paths instead of pnpm exec for git worktree compatibility
 
 ### Roadmap Evolution
 
@@ -115,6 +121,6 @@ None yet.
 ## Session Continuity
 
 Last activity: 2026-03-27
-Last session: 2026-03-27T19:04:06.145Z
-Stopped at: Completed 01.1-03-PLAN.md (CI pnpm migration)
+Last session: 2026-03-27T22:00:00.000Z
+Stopped at: Completed 02-02-PLAN.md (auth register/login/logout)
 Resume file: None

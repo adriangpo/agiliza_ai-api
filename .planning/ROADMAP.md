@@ -61,11 +61,11 @@ Plans:
 4. `POST /auth/logout` adds the token's `jti` to the Redis blocklist; the same access token on a subsequent authenticated request returns HTTP 401
 5. `DELETE /users/me` removes PII from the user record, anonymizes the user's publications to "Cidadão Anônimo", and invalidates all tokens immediately
 
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Install packages + 3 migrations (users, auth_access_tokens, oauth_identities) + User model + OAuthIdentity model
-- [ ] 02-02-PLAN.md — Email/password auth (register, login, logout) + validators + AuthService + TDD tests
+- [x] 02-02-PLAN.md — Email/password auth (register, login, logout) + validators + AuthService + TDD tests
 - [ ] 02-03-PLAN.md — Google OAuth + profile endpoint (GET /users/me) + account deletion (AccountService) + TDD tests
 - [ ] 02-04-PLAN.md — Route registration + Bouncer UserPolicy + cross-tenant tests + API.md + MODELS.md
 
@@ -174,7 +174,7 @@ Phases execute in numeric order: 1 → 01.1 → 2 → 3 → 4 → 5 → 6 → 7 
 |-------|----------------|--------|-----------|
 | 1. Foundation | 9/9 | In Progress|  |
 | 01.1 Change project to pnpm (latest) | 3/3 | Complete    | 2026-03-27 |
-| 2. Authentication & Identity | 0/4 | Ready to execute | - |
+| 2. Authentication & Identity | 1/4 | In Progress|  |
 | 3. Reports & Geospatial | 0/TBD | Not started | - |
 | 4. Clustering | 0/TBD | Not started | - |
 | 5. Moderation | 0/TBD | Not started | - |
