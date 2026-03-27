@@ -33,5 +33,5 @@
   },
   "resolve_model_ids": "omit",
   "mode": "yolo",
-  "granularity": "fine"
+  "granularity": "standard"
 }

@@ -20,7 +20,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-23)
 
 **Core value:** Citizens can submit a geolocated complaint and receive status updates — everything else amplifies this but cannot replace it.
-**Current focus:** Phase 01.1 — change-project-to-pnpm-latest
+**Current focus:** Phase 02 — authentication-identity
 
 ## Current Position
 
