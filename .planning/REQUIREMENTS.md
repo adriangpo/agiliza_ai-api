@@ -26,13 +26,13 @@
 ### Authentication & Identity
 
 - [ ] **AUTH-01**: User can register with unique email and password per tenant (RN-001)
-- [ ] **AUTH-02**: User can authenticate via OAuth social login — Google; Apple if driver available (RN-001)
+- [x] **AUTH-02**: User can authenticate via OAuth social login — Google; Apple if driver available (RN-001)
 - [ ] **AUTH-03**: User receives an opaque access token on login (AdonisJS v7 auth v10 access tokens guard, DB-backed); tenant context is loaded from the user record per request — no JWT, no token payload claims
 - [ ] **AUTH-04**: Access tokens expire; user can obtain a fresh token by re-authenticating (or via refresh token if supported by auth v10 guard)
 - [ ] **AUTH-05**: Refresh tokens are invalidated on logout; token blocklist stored in Redis
-- [ ] **AUTH-06**: User's public profile exposes only display name and join date (RN-001)
-- [ ] **AUTH-07**: User can delete their account; all personal data removed, publications anonymized to "Cidadão Anônimo" (RN-005)
-- [ ] **AUTH-08**: Deleted account tokens are invalidated immediately via blocklist (RN-005)
+- [x] **AUTH-06**: User's public profile exposes only display name and join date (RN-001)
+- [x] **AUTH-07**: User can delete their account; all personal data removed, publications anonymized to "Cidadão Anônimo" (RN-005)
+- [x] **AUTH-08**: Deleted account tokens are invalidated immediately via blocklist (RN-005)
 
 ### Reports (Ticket Submission)
 
@@ -161,13 +161,13 @@
 | INFRA-08 | Phase 1: Foundation | Complete |
 | INFRA-09 | Phase 1: Foundation | Complete |
 | AUTH-01 | Phase 2: Authentication & Identity | Pending |
-| AUTH-02 | Phase 2: Authentication & Identity | Pending |
+| AUTH-02 | Phase 2: Authentication & Identity | Complete |
 | AUTH-03 | Phase 2: Authentication & Identity | Pending |
 | AUTH-04 | Phase 2: Authentication & Identity | Pending |
 | AUTH-05 | Phase 2: Authentication & Identity | Pending |
-| AUTH-06 | Phase 2: Authentication & Identity | Pending |
-| AUTH-07 | Phase 2: Authentication & Identity | Pending |
-| AUTH-08 | Phase 2: Authentication & Identity | Pending |
+| AUTH-06 | Phase 2: Authentication & Identity | Complete |
+| AUTH-07 | Phase 2: Authentication & Identity | Complete |
+| AUTH-08 | Phase 2: Authentication & Identity | Complete |
 | REP-01 | Phase 3: Reports & Geospatial | Pending |
 | REP-02 | Phase 3: Reports & Geospatial | Pending |
 | REP-03 | Phase 3: Reports & Geospatial | Pending |
