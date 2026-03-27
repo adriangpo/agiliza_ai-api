@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 01.1-01-PLAN.md (pnpm lockfile migration)
-last_updated: "2026-03-27T18:58:10.868Z"
+stopped_at: Completed 01.1-02-PLAN.md (pnpm command surface migration)
+last_updated: "2026-03-27T19:00:46.472Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 9
   completed_phases: 1
   total_plans: 16
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-03-23)
 ## Current Position
 
 Phase: 01.1 (change-project-to-pnpm-latest) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -52,6 +52,7 @@ Plan: 2 of 3
 | Phase 01-foundation P08 | 3 | 1 tasks | 1 files |
 | Phase 01-foundation P09 | 201s | 2 tasks | 2 files |
 | Phase 01.1-change-project-to-pnpm-latest P01 | 2min | 2 tasks | 3 files |
+| Phase 01.1-change-project-to-pnpm-latest P02 | 1min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,7 @@ Active decisions affecting Phase 1:
 - [Phase 01-foundation]: @adonisjs/limiter v3 inline pattern documented: each feature creates its own middleware file in app/features/{name}/middleware/ — rate_limit_middleware.ts is a documentation artifact, not a base class
 - [Phase 01-foundation]: engines.node >=24 added to package.json — npm/CI warns on incompatible Node.js; task was pre-completed via quick task 260325-u17
 - [Phase 01.1-change-project-to-pnpm-latest]: pnpm@10.33.0 pinned via packageManager field; pnpm import used for lockfile-preserving migration; no hoisting config required
+- [Phase 01.1-change-project-to-pnpm-latest]: pnpm exec chosen over pnpm run for Makefile and lefthook tool invocations — resolves binaries from node_modules/.bin without requiring a package.json script entry
 
 ### Roadmap Evolution
 
@@ -111,6 +113,6 @@ None yet.
 ## Session Continuity
 
 Last activity: 2026-03-27
-Last session: 2026-03-27T18:58:10.865Z
-Stopped at: Completed 01.1-01-PLAN.md (pnpm lockfile migration)
+Last session: 2026-03-27T19:00:46.469Z
+Stopped at: Completed 01.1-02-PLAN.md (pnpm command surface migration)
 Resume file: None
