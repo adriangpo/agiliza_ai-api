@@ -2,9 +2,9 @@
 
 ## Overview
 
-Eight phases deliver a multi-tenant municipal citizen-reporting API. Foundation establishes the RLS contract and test harness that every subsequent phase depends on. Auth gives users identity. Reports delivers the core citizen action — geolocated complaint submission. Clustering, Moderation, Feed, and Notifications amplify the core. Management closes the loop for operators.
+Nine phases deliver a multi-tenant municipal citizen-reporting API. Foundation establishes the RLS contract and test harness that every subsequent phase depends on. Phase 01.1 performs the package-manager migration to pnpm. Auth gives users identity. Reports delivers the core citizen action — geolocated complaint submission. Clustering, Moderation, Feed, and Notifications amplify the core. Management closes the loop for operators.
 
-Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in every phase alongside feature code. It is formally assigned to Phase 8 where the template is exercised on the final feature; all prior phases contribute to it.
+Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in every phase alongside feature code. It is formally assigned to Phase 8 where the template is exercised on the final feature; all prior phases contribute to it. Phase 01.1 is an inserted tooling phase that migrates the repo from npm to pnpm before authentication work begins.
 
 ## Phases
 
@@ -37,13 +37,15 @@ Documentation (DOC-01–DOC-03) is a cross-cutting practice that happens in ever
 
 ### Phase 01.1: Change project to pnpm (latest) (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** The repository uses `pnpm@10.33.0` as its sole package manager, `pnpm-lock.yaml` is generated from the existing npm lockfile via `pnpm import` so dependency resolution is preserved, local hooks and Make targets invoke repo-local tools through `pnpm exec`, and GitHub Actions installs with `pnpm install --frozen-lockfile` plus pnpm cache support — without bundling unrelated dependency refreshes or hoisting config changes.
+**Requirements**: none explicitly mapped for this inserted phase
 **Depends on:** Phase 1
-**Plans:** 9/9 plans complete
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 01.1 to break down)
+- [ ] 01.1-01-PLAN.md — Pin `pnpm@10.33.0`, import the npm lockfile, and make `pnpm-lock.yaml` canonical
+- [ ] 01.1-02-PLAN.md — Move Makefile and Lefthook commands from `npx` to `pnpm exec` and add `make audit`
+- [ ] 01.1-03-PLAN.md — Update GitHub Actions to pnpm setup/cache/install and `make audit`
 
 ### Phase 2: Authentication & Identity
 
@@ -166,11 +168,12 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 01.1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 9/9 | In Progress|  |
+| 01.1 Change project to pnpm (latest) | 0/3 | Ready to execute | - |
 | 2. Authentication & Identity | 0/4 | Ready to execute | - |
 | 3. Reports & Geospatial | 0/TBD | Not started | - |
 | 4. Clustering | 0/TBD | Not started | - |
