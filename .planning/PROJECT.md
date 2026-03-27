@@ -130,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-23 after initialization*
+*Last updated: 2026-03-27 — Phase 01.1 complete: repository migrated from npm to pnpm@10.33.0 (lockfile, Makefile, lefthook, CI all pnpm-native)*
