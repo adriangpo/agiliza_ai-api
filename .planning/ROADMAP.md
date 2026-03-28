@@ -64,9 +64,9 @@ Plans:
 **Plans:** 1/4 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Install packages + 3 migrations (users, auth_access_tokens, oauth_identities) + User model + OAuthIdentity model
+- [x] 02-01-PLAN.md — Install packages + 3 migrations (users, auth_access_tokens, oauth_identities) + User model + OAuthIdentity model
 - [x] 02-02-PLAN.md — Email/password auth (register, login, logout) + validators + AuthService + TDD tests
-- [ ] 02-03-PLAN.md — Google OAuth + profile endpoint (GET /users/me) + account deletion (AccountService) + TDD tests
+- [x] 02-03-PLAN.md — Google OAuth + profile endpoint (GET /users/me) + account deletion (AccountService) + TDD tests
 - [ ] 02-04-PLAN.md — Route registration + Bouncer UserPolicy + cross-tenant tests + API.md + MODELS.md
 
 ### Phase 3: Reports & Geospatial
