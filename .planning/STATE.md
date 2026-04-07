@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: In progress
-stopped_at: Completed 02-03-PLAN.md (social auth, profile, account deletion)
-last_updated: "2026-03-27T22:08:57.264Z"
+stopped_at: Discussed phase 02.1 — context captured, ready for planning
+last_updated: "2026-03-27T22:30:00.000Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 9
@@ -102,6 +102,8 @@ Active decisions affecting Phase 1:
 ### Roadmap Evolution
 
 - Phase 01.1 inserted after Phase 1: Change project to pnpm (latest) (URGENT)
+- Phase 02.1 inserted after Phase 2: Multi-tenant user access — one user belongs to many tenants (tenantId → tenantIds, admin-granted membership) (URGENT)
+- Phase 02.2 inserted after Phase 2: Admin role and admin-only endpoints — tenant CRUD, user CRUD, platform management (URGENT)
 
 ### Open Questions (from research — resolve before phase begins)
 

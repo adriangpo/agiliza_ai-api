@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git branch:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Skill(gsd:plan-phase)",
+      "WebSearch"
+    ]
+  }
+}

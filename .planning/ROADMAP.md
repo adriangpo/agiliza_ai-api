@@ -69,6 +69,26 @@ Plans:
 - [x] 02-03-PLAN.md — Google OAuth + profile endpoint (GET /users/me) + account deletion (AccountService) + TDD tests
 - [x] 02-04-PLAN.md — Route registration + Bouncer UserPolicy + cross-tenant tests + API.md + MODELS.md
 
+### Phase 02.2: Admin role and admin-only endpoints: tenant CRUD, user CRUD, platform management (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 2
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 02.2 to break down)
+
+### Phase 02.1: Multi-tenant user access: one user belongs to many tenants (tenantId -> tenantIds, admin-granted membership) (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 2
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 02.1 to break down)
+
 ### Phase 3: Reports & Geospatial
 
 **Goal:** An authenticated citizen can submit a geolocated complaint with category, description, optional image (EXIF-stripped for public delivery, original stored privately), GPS validation enforced at the server, rate limiting applied, and the ticket enters a lifecycle with an audit trail — and the user can view and delete their own open tickets.
